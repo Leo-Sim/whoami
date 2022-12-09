@@ -1,17 +1,28 @@
 import React from "react";
 
-import {MenuList, MenuItem} from "@mui/material";
+import {Link, useLocation} from "react-router-dom";
+
+import {MenuList, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
 import {ContextProvider, curTheme} from "../context/context";
+
+import SchoolIcon from '@mui/icons-material/School';
 
 export default () => {
 
-    console.log('cur theme : ' + curTheme())
 
     return(
-        <div style={{width:"100px"}}>
+        <div>
 
             <MenuList >
-                <MenuItem>Profile</MenuItem>
+
+                <Link to={"/education"}>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <SchoolIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Education</ListItemText>
+                    </MenuItem>
+                </Link>
                 <MenuItem>history</MenuItem>
             </MenuList>
         </div>
