@@ -13,7 +13,13 @@ module.exports = {
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader'] }
+                use: ['babel-loader']
+            },
+            {
+                test: /.css?$/,
+                exclude: [],
+                use: ["style-loader", "css-loader", "postcss-loader"],
+            }
         ],
     },
     resolve: {
@@ -24,5 +30,6 @@ module.exports = {
             template: "public/index.html",
             favicon: 'public/favicon.ico'
         })
+
     ]
 };
