@@ -8,7 +8,8 @@ import {Link} from "react-router-dom";
 
 import {styled} from "@mui/material/styles";
 
-import {Box, AppBar, MenuList, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
+import {MenuList, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
+import {Collapse} from "@mui/material";
 import {ContextProvider, curTheme} from "../context/context";
 
 import SchoolIcon from '@mui/icons-material/School';
@@ -18,11 +19,10 @@ import Summarize from "@mui/icons-material/Summarize";
 import baseTheme from "../theme/baseTheme";
 
 import {getThemeByPlatform, getCurBreakPoint} from "../utils/utils";
-import theme from "tailwindcss/defaultTheme";
 
 export default () => {
 
-    const clickMobileMenuBtn = (event: React.MouseEvent) => {
+    const clickMobileMenuBtn = () => {
         setMenuDisplay(!isMenuHidden)
     }
 
@@ -46,13 +46,13 @@ export default () => {
 
     const curBreakPoint = getCurBreakPoint();
 
-    const isMobileDisplay = curBreakPoint === "mobile"? true : false;
+    const isMobileDisplay = curBreakPoint === "mobile";
 
     // if menu is shown on mobile, show menu when 'MobileMenuBtn' is clicked
     const [isMenuHidden, setMenuDisplay] = useState<boolean>(isMobileDisplay)
 
     const menuWidth = isMobileDisplay? '100%' : '150px';
-    const ColoredMenuList = styled(MenuList)(({theme}) => ({
+    const ColoredMenuList = styled(MenuList)(() => ({
         backgroundColor: colorTheme.bgColor,
         color: colorTheme.textColor,
         display: isMenuHidden? "none": "block",
@@ -64,31 +64,34 @@ export default () => {
 
     return(
         <div>
-            <div onClick={(event) => clickMobileMenuBtn(event)}>
+            <div onClick={(event) => clickMobileMenuBtn()}>
                 <MobileMenuBtn ></MobileMenuBtn>
             </div>
-            isMenu Shown : {isMenuHidden}
+
+
             {
-                !isMenuHidden &&
-                <ColoredMenuList >
-                    <Link to={"/summary"}>
-                        <MenuItem>
-                            <ListItemIcon>
-                                <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Summary</ListItemText>
-                        </MenuItem>
-                    </Link>
-                    <Link to={"/education"}>
-                        <MenuItem>
-                            <ListItemIcon>
-                                <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Education</ListItemText>
-                        </MenuItem>
-                    </Link>
-                    <MenuItem>history</MenuItem>
-                </ColoredMenuList>
+
+                <Collapse timeout={500} in={!isMenuHidden}>
+                    <ColoredMenuList >
+                        <Link to={"/summary"}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Summarize sx={{color: colorTheme.textColor}} fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Summary</ListItemText>
+                            </MenuItem>
+                        </Link>
+                        <Link to={"/education"}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Education</ListItemText>
+                            </MenuItem>
+                        </Link>
+                        <MenuItem>history</MenuItem>
+                    </ColoredMenuList>
+                </Collapse>
             }
         </div>
     )
