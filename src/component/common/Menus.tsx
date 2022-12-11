@@ -10,15 +10,15 @@ import {styled} from "@mui/material/styles";
 
 import {MenuList, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
 import {Collapse} from "@mui/material";
-import {ContextProvider, curTheme} from "../context/context";
+import {curTheme} from "../../context/context";
 
 import SchoolIcon from '@mui/icons-material/School';
 import MenuIcon from '@mui/icons-material/Menu';
 import Summarize from "@mui/icons-material/Summarize";
 
-import baseTheme from "../theme/baseTheme";
+import baseTheme from "../../theme/baseTheme";
 
-import {getThemeByPlatform, getCurBreakPoint} from "../utils/utils";
+import {getThemeByPlatform, getCurBreakPoint} from "../../utils/platform";
 
 export default () => {
 
@@ -30,7 +30,7 @@ export default () => {
     const sizetheme = getThemeByPlatform()
 
     // show only on 'mobile'
-    const MobileMenuBtn = styled(MenuIcon)(({ theme }) => ({
+    const MobileMenuBtn = styled(MenuIcon)(() => ({
         padding: sizetheme.spacing(1),
         [sizetheme.breakpoints.down('tablet')]: {
             display: 'inline-block'
@@ -64,7 +64,7 @@ export default () => {
 
     return(
         <div>
-            <div onClick={(event) => clickMobileMenuBtn()}>
+            <div onClick={() => clickMobileMenuBtn()}>
                 <MobileMenuBtn ></MobileMenuBtn>
             </div>
 
