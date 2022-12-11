@@ -1,35 +1,38 @@
 import React, {useContext} from "react";
-import Themes from "../theme/themes";
+import ColorThemes from "../theme/colorThemes";
+
+import baseTheme from "../theme/baseTheme";
+import GreenTheme from "../theme/greenTheme";
+import WhiteTheme from "../theme/whiteTheme";
+
+
 // context managed globally
 interface GlobalContext {
-    theme: Themes
+    theme: ColorThemes
+
 }
 
 const defaultContext: GlobalContext = {
-    theme: Themes.WHITE
+    theme: ColorThemes.WHITE
 }
 
 const globalContext = React.createContext<GlobalContext>(defaultContext);
 const ContextProvider = globalContext.Provider;
 
-const curTheme = () => {
+const curTheme = (): baseTheme => {
     const context = useContext(globalContext);
-    const theme: Themes = context.theme;
+    const theme: ColorThemes = context.theme;
 
 
-    let curTheme: string;
+    let curTheme: baseTheme;
     switch (theme) {
-        case Themes.GREEN:
-            curTheme ='GREEN';
+        case ColorThemes.GREEN:
+            curTheme = new GreenTheme();
             break;
 
-        case Themes.CUSTOM:
-            curTheme = 'CUSTOM';
-            break;
-
-        case Themes.WHITE:
+        case ColorThemes.WHITE:
         default:
-            curTheme = 'WHITE';
+            curTheme = new WhiteTheme();
     }
 
     return curTheme;
