@@ -14,7 +14,8 @@ import {curTheme} from "../../context/context";
 
 import SchoolIcon from '@mui/icons-material/School';
 import MenuIcon from '@mui/icons-material/Menu';
-import Summarize from "@mui/icons-material/Summarize";
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import EditIcon from "@mui/icons-material/Edit";
 
 import baseTheme from "../../theme/baseTheme";
 
@@ -41,7 +42,6 @@ export default () => {
         color: "black",
         fontSize: 40,
         cursor: "pointer"
-
     }));
 
     const curBreakPoint = getCurBreakPoint();
@@ -51,32 +51,31 @@ export default () => {
     // if menu is shown on mobile, show menu when 'MobileMenuBtn' is clicked
     const [isMenuHidden, setMenuDisplay] = useState<boolean>(isMobileDisplay)
 
-    const menuWidth = isMobileDisplay? '100%' : '150px';
+    // const menuWidth = isMobileDisplay? '100%' : '100%';
     const ColoredMenuList = styled(MenuList)(() => ({
-        backgroundColor: colorTheme.bgColor,
+        backgroundColor: isMobileDisplay? colorTheme.bgColor : 'transparent',
         color: colorTheme.textColor,
-        display: isMenuHidden? "none": "block",
-        width: menuWidth
+        display: isMenuHidden? "none": "block"
 
     }));
 
-
-
     return(
-        <div>
+        <div style={{
+            backgroundColor: isMobileDisplay? 'transparent' : colorTheme.bgColor,
+            height: '100%',
+            width: '100%'}}
+        >
             <div onClick={() => clickMobileMenuBtn()}>
                 <MobileMenuBtn ></MobileMenuBtn>
             </div>
 
-
             {
-
-                <Collapse timeout={500} in={!isMenuHidden}>
-                    <ColoredMenuList >
+                <Collapse timeout={700} in={!isMenuHidden}>
+                    <ColoredMenuList>
                         <Link to={"/summary"}>
                             <MenuItem>
                                 <ListItemIcon>
-                                    <Summarize sx={{color: colorTheme.textColor}} fontSize="small" />
+                                    <SummarizeIcon sx={{color: colorTheme.textColor}} fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText>Summary</ListItemText>
                             </MenuItem>
@@ -87,6 +86,15 @@ export default () => {
                                     <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText>Education</ListItemText>
+                            </MenuItem>
+                        </Link>
+                        <MenuItem>history</MenuItem>
+                        <Link to={"/skills"}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <EditIcon sx={{color: colorTheme.textColor}} fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Skill</ListItemText>
                             </MenuItem>
                         </Link>
                         <MenuItem>history</MenuItem>
