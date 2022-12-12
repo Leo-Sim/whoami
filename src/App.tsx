@@ -53,6 +53,7 @@ export default () => {
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/education" element={<Education />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
+                            {/*<Route path="*" element={ <Navigate to="/" />} />*/}
                         </Routes>
                     </Contents>
                 </BrowserRouter>

@@ -3,6 +3,7 @@ class baseTheme {
 
     private _bgColor: string;
     private _textColor: string;
+    private _skillColors: Array<string>
 
     constructor() {
     }
@@ -23,6 +24,13 @@ class baseTheme {
         this._textColor = value;
     }
 
+    get skillColors(): Array<string> {
+        return this._skillColors;
+    }
+
+    set skillColors(value: Array<string>) {
+        this._skillColors = value;
+    }
 }
 
 export default baseTheme;

@@ -3,8 +3,12 @@ import info from '../../public/info/detail.json';
 
 interface FileContent {
     imagePath: string
-    skills: Array<object>
+    skills: Array<Skill>
+}
 
+interface Skill {
+    name: string
+    score: number
 }
 
 class FileReader {
@@ -15,9 +19,9 @@ class FileReader {
         this.f = info;
     }
 
-    public getSkills(): Array<object> {
+    public getSkills(): Array<Skill> {
        return this.f.skills;
     }
 }
 
-export {FileContent, FileReader};
+export {FileContent, FileReader, Skill};
