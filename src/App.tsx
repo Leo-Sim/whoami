@@ -11,7 +11,13 @@ import ColorThemes from "./theme/colorThemes";
 import Summary from "./pages/pc/Summary";
 import Skills from "./pages/pc/Skills";
 
-import {getCurBreakPoint} from "./utils/platform";
+import {getCssByPlatform, getCurBreakPoint, getThemeByPlatform} from "./utils/platform";
+
+
+const MENU_WIDTH_TABLET = 160;
+const MENU_WIDTH_DESKTOP = 200;
+const CONTENT_PADDING_NOT_MOBILE = 20;
+const CONTENT_PADDING_MOBILE = 10;
 
 export default () => {
 
@@ -21,22 +27,45 @@ export default () => {
     }
 
     const isMobile = getCurBreakPoint() == "mobile"
-    // const menuWidth = isMobile? "100%" : "160px";
+
+    const theme = getThemeByPlatform();
 
     // div for menu
-    const Left = styled("div")(() => ({
-        position: isMobile? 'static' : 'absolute',
-        top: isMobile? 'auto' : '0',
-        bottom: isMobile? 'auto' : '0',
-        width: isMobile? "100%" : "160px"
-    }));
-
+    const Left = styled("div")(() => (
+        getCssByPlatform(theme, {
+            position: "static",
+            top: "auto",
+            bottom: "auto",
+            width: "100%"
+        },{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            width: MENU_WIDTH_TABLET + "px"
+        }, {
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            width: MENU_WIDTH_DESKTOP + "px"
+        })
+    ));
     // div for content
-    const Contents = styled("div")(() => ({
-        paddingLeft: isMobile? '10px' : '170px',
+    let Contents = styled("div")(() => ({
         paddingTop: '5px'
-
     }));
+
+    Contents = styled(Contents)(() => (
+        getCssByPlatform(theme, {
+            paddingLeft: CONTENT_PADDING_MOBILE + "px",
+            paddingRight: CONTENT_PADDING_MOBILE + "px"
+        },{
+            paddingLeft: MENU_WIDTH_TABLET + CONTENT_PADDING_NOT_MOBILE + "px",
+            paddingRight: CONTENT_PADDING_NOT_MOBILE + "px"
+        }, {
+            paddingLeft: MENU_WIDTH_DESKTOP + CONTENT_PADDING_NOT_MOBILE + "px",
+            paddingRight: CONTENT_PADDING_NOT_MOBILE + "px"
+        })
+    ));
 
     return (
 
