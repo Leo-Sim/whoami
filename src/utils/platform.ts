@@ -45,5 +45,16 @@ const getCurBreakPoint = () => {
         return 'desktop';
     }
 }
-export {getThemeByPlatform, getCurBreakPoint}
+
+const getCssByPlatform = (theme: Theme, mobile: object, tablet: any, desktop: any) => {
+
+    return ({
+        [theme.breakpoints.between("mobile","tablet")]: mobile,
+        [theme.breakpoints.between("tablet","desktop")]: tablet,
+        [theme.breakpoints.up("desktop")]: desktop
+    });
+}
+
+
+export {getThemeByPlatform, getCurBreakPoint, getCssByPlatform}
 

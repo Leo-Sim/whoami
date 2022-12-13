@@ -1,38 +1,80 @@
 import React, {useEffect, useState} from "react";
 
-import {Grid, Box, LinearProgress, ThemeProvider, Theme} from "@mui/material";
+import {Grid, Paper, Box, LinearProgress, ThemeProvider, Theme} from "@mui/material";
 import {styled} from "@mui/material/styles";
 
 import {curTheme} from "../../context/context";
-import {FileReader, Skill} from '../../utils/file'
-import {getThemeByPlatform, getCurBreakPoint} from "../../utils/platform";
+import {FileReader, FileContent, Skill} from '../../utils/file'
+import {getThemeByPlatform, getCurBreakPoint, getCssByPlatform} from "../../utils/platform";
 import Utils from "../../utils/utils";
 
 import {grey} from "@mui/material/colors";
 
 
-const getSkillTemplate = (name: string, score: number, theme: Theme) => {
+const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: boolean) => {
 
     const curColorTheme = curTheme();
     const colors: Array<string> = curColorTheme.skillColors;
 
     const c = Utils.getNextColor(colors);
 
-    const OutBox = styled(Box)(() => ({
+    // Colored div  for each skill.
+    let OutBox = styled(Box)(() => ({
         backgroundColor: c,
-        height: 150,
         borderRadius: 5,
+        whiteSpace: 'normal'
     }));
 
-    const TextBox = styled(Box)(() => ({
-        // fontSize: 20,
+    // Add css for colored div by platform
+    OutBox = styled(OutBox)(() => (
+        getCssByPlatform(theme, {
+            height: 120
+        }, {
+            height: 150
+        }, {
+            height: 150
+        })
+    ));
+
+    // Add common css for each text
+    let TextBox = styled(Box)(() => ({
         textAlign: 'center'
+
+
     }));
+
+
+    TextBox = styled(TextBox)(() => (
+        getCssByPlatform(theme, {
+            fontSize: 15
+        }, {
+            fontSize: 20
+        }, {
+            fontSize: 30,
+        })
+    ));
 
     return (
         <ThemeProvider theme={theme}>
             <OutBox>
 
+                {/*<TextBox sx={(theme) => ({*/}
+                {/*    [theme.breakpoints.between("mobile","tablet")]: {*/}
+                {/*        fontSize: 8,*/}
+                {/*        color: 'red'*/}
+                {/*    },*/}
+
+                {/*    [theme.breakpoints.between("mobile","tablet")]: {*/}
+                {/*        fontSize: 8,*/}
+                {/*        textColor: 'red'*/}
+                {/*    },*/}
+                {/*    [theme.breakpoints.between("tablet","desktop")]: {*/}
+                {/*        fontSize: 50,*/}
+                {/*    },*/}
+                {/*    [theme.breakpoints.up("desktop")]: {*/}
+                {/*        fontSize: 60,*/}
+                {/*    }*/}
+                {/*})}>*/}
                 <TextBox >
                     {name}
                 </TextBox>
