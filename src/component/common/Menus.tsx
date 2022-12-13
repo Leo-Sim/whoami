@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import baseTheme from "../../theme/baseTheme";
 
-import {getThemeByPlatform, getCurBreakPoint} from "../../utils/platform";
+import {getThemeByPlatform, getCurBreakPoint, getCssByPlatform} from "../../utils/platform";
 
 export default () => {
 
@@ -28,32 +28,29 @@ export default () => {
     }
 
     const colorTheme: baseTheme = curTheme();
-    const sizetheme = getThemeByPlatform()
+    const theme = getThemeByPlatform()
 
-    // show only on 'mobile'
-    const MobileMenuBtn = styled(MenuIcon)(() => ({
-        padding: sizetheme.spacing(1),
-        [sizetheme.breakpoints.down('tablet')]: {
+    // Button for Showing/Hiding Menu. Display only on 'mobile'
+    const MobileMenuBtn = styled(MenuIcon)(() => (
+        getCssByPlatform(theme, {
             display: 'inline-block'
-        },
-        [sizetheme.breakpoints.up('tablet')]: {
+        }, {
             display: 'none'
-        },
-        color: "black",
-        fontSize: 40,
-        cursor: "pointer"
-    }));
+        }, {
+            display: 'none'
+        })
+    ));
 
     const curBreakPoint = getCurBreakPoint();
 
-    const isMobileDisplay = curBreakPoint === "mobile";
+    const isMobile = curBreakPoint === "mobile";
 
     // if menu is shown on mobile, show menu when 'MobileMenuBtn' is clicked
-    const [isMenuHidden, setMenuDisplay] = useState<boolean>(isMobileDisplay)
+    const [isMenuHidden, setMenuDisplay] = useState<boolean>(isMobile)
 
     // const menuWidth = isMobileDisplay? '100%' : '100%';
     const ColoredMenuList = styled(MenuList)(() => ({
-        backgroundColor: isMobileDisplay? colorTheme.bgColor : 'transparent',
+        backgroundColor: isMobile? colorTheme.bgColor : 'transparent',
         color: colorTheme.textColor,
         display: isMenuHidden? "none": "block"
 
@@ -61,7 +58,7 @@ export default () => {
 
     return(
         <div style={{
-            backgroundColor: isMobileDisplay? 'transparent' : colorTheme.bgColor,
+            backgroundColor: isMobile? 'transparent' : colorTheme.bgColor,
             height: '100%',
             width: '100%'}}
         >
@@ -72,7 +69,7 @@ export default () => {
             {
                 <Collapse timeout={700} in={!isMenuHidden}>
                     <ColoredMenuList>
-                        <Link to={"/summary"}>
+                        <Link to={"/summary"} onClick={() => isMobile && clickMobileMenuBtn()}>
                             <MenuItem>
                                 <ListItemIcon>
                                     <SummarizeIcon sx={{color: colorTheme.textColor}} fontSize="small" />
@@ -80,7 +77,7 @@ export default () => {
                                 <ListItemText>Summary</ListItemText>
                             </MenuItem>
                         </Link>
-                        <Link to={"/education"}>
+                        <Link to={"/education"} onClick={() => isMobile && clickMobileMenuBtn()}>
                             <MenuItem>
                                 <ListItemIcon>
                                     <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
@@ -89,7 +86,7 @@ export default () => {
                             </MenuItem>
                         </Link>
                         <MenuItem>history</MenuItem>
-                        <Link to={"/skills"}>
+                        <Link to={"/skills"} onClick={() => isMobile && clickMobileMenuBtn()}>
                             <MenuItem>
                                 <ListItemIcon>
                                     <EditIcon sx={{color: colorTheme.textColor}} fontSize="small" />
