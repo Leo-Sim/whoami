@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import {Grid, Paper, Box, LinearProgress, ThemeProvider, Theme} from "@mui/material";
+import {Grid, Paper, Box, LinearProgress, CircularProgress, ThemeProvider, Theme} from "@mui/material";
 import {styled} from "@mui/material/styles";
 
 import {curTheme} from "../../context/context";
@@ -10,6 +10,14 @@ import Utils from "../../utils/utils";
 
 import {grey} from "@mui/material/colors";
 
+const OUT_BOX_HEIGHT_MOBILE = 120;
+const OUT_BOX_HEIGHT_TABLET = 180;
+const OUT_BOX_HEIGHT_DESKTOP = 200;
+
+
+const FONT_SIZE_MOBILE = 15;
+const FONT_SIZE_TABLET = 20;
+const FONT_SIZE_DESKTOP = 30;
 
 const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: boolean) => {
 
@@ -20,69 +28,104 @@ const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: b
 
     // Colored div  for each skill.
     let OutBox = styled(Box)(() => ({
+        paddingTop: "5px",
         backgroundColor: c,
         borderRadius: 5,
-        whiteSpace: 'normal'
+        whiteSpace: "normal",
+        position: "relative"
     }));
 
     // Add css for colored div by platform
     OutBox = styled(OutBox)(() => (
         getCssByPlatform(theme, {
-            height: 120
+            height: OUT_BOX_HEIGHT_MOBILE
         }, {
-            height: 150
+            height: OUT_BOX_HEIGHT_TABLET
         }, {
-            height: 150
+            height: OUT_BOX_HEIGHT_DESKTOP
         })
     ));
 
     // Add common css for each text
     let TextBox = styled(Box)(() => ({
-        textAlign: 'center'
-
-
+        textAlign: "center"
     }));
 
 
     TextBox = styled(TextBox)(() => (
         getCssByPlatform(theme, {
-            fontSize: 15
+            fontSize: FONT_SIZE_MOBILE + "px"
         }, {
-            fontSize: 20
+            fontSize: FONT_SIZE_TABLET + "px"
         }, {
-            fontSize: 30,
+            fontSize: FONT_SIZE_DESKTOP + "px"
         })
     ));
+
+    let ProgressBox = styled(Box)(() => ({
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        textAlign: "center",
+        }));
+
+    ProgressBox = styled(ProgressBox)(() => (
+        getCssByPlatform(theme, {
+            fontSize: FONT_SIZE_MOBILE + 10 + "px",
+            paddingTop: "10px"
+
+        }, {
+            fontSize: FONT_SIZE_TABLET + 10 + "px",
+            paddingTop: "15px"
+        }, {
+            fontSize: FONT_SIZE_DESKTOP + 10 + "px",
+            paddingTop: "20px"
+        })
+    ));
+
+    const Progress = styled(CircularProgress)(() => (
+        getCssByPlatform(theme, {
+            height: "10px",
+            width: "10px"
+
+        }, {
+            height: "10px",
+            width: "10px"
+        }, {
+            height: "150px",
+            width: "150px"
+        })
+    ));
+
+    // determine size of circular progress
+    const platform = getCurBreakPoint();
+    let circleSize = 0;
+    switch (platform) {
+        case "mobile":
+            circleSize = 50;
+            break;
+        case "tablet":
+            circleSize = 100;
+            break;
+        case "desktop":
+        default:
+            circleSize = 120;
+
+    }
 
     return (
         <ThemeProvider theme={theme}>
             <OutBox>
-
-                {/*<TextBox sx={(theme) => ({*/}
-                {/*    [theme.breakpoints.between("mobile","tablet")]: {*/}
-                {/*        fontSize: 8,*/}
-                {/*        color: 'red'*/}
-                {/*    },*/}
-
-                {/*    [theme.breakpoints.between("mobile","tablet")]: {*/}
-                {/*        fontSize: 8,*/}
-                {/*        textColor: 'red'*/}
-                {/*    },*/}
-                {/*    [theme.breakpoints.between("tablet","desktop")]: {*/}
-                {/*        fontSize: 50,*/}
-                {/*    },*/}
-                {/*    [theme.breakpoints.up("desktop")]: {*/}
-                {/*        fontSize: 60,*/}
-                {/*    }*/}
-                {/*})}>*/}
                 <TextBox >
                     {name}
                 </TextBox>
-                <Box style={{paddingLeft:'10px', paddingRight: '10px', position: 'relative'}}>
-                    {/*<Box style={{position: "absolute", bottom: 10}}>*/}
-                    <LinearProgress variant={"determinate"} style={{ height:'6px', color: grey[500]}} value={score}/>
-                    {/*</Box>*/}
-                </Box>
+                <ProgressBox>
+
+                        {/*<Progress  variant={"determinate"} style={{width:"100px"}} value={score}></Progress>*/}
+                        {/*<CircularProgress  style={{height: circleSize + "px", width: circleSize + "px"}} variant={"determinate"} value={score}></CircularProgress>*/}
+                        <span>{ score }</span>
+
+                    <LinearProgress variant={"determinate"} style={{ height:'10px', color: grey[500]}} value={score}/>
+                </ProgressBox>
 
 
             </OutBox>
@@ -150,18 +193,6 @@ export default () => {
 
                         {grids}
 
-                        {/*<Grid item mobile={6} desktop={4}>*/}
-                        {/*    <div style={{backgroundColor: 'red'}}>xs=6 md=8</div>*/}
-                        {/*</Grid>*/}
-                        {/*<Grid item mobile={6} desktop={4}>*/}
-                        {/*    <div style={{backgroundColor: 'red'}}>xs=6 md=8</div>*/}
-                        {/*</Grid>*/}
-                        {/*<Grid item mobile={6} desktop={4}>*/}
-                        {/*    <div style={{backgroundColor: 'red'}}>xs=6 md=8</div>*/}
-                        {/*</Grid>*/}
-                        {/*<Grid item mobile={6} desktop={8}>*/}
-                        {/*    <div style={{backgroundColor: 'red'}}>xs=6 md=8</div>*/}
-                        {/*</Grid>*/}
                     </Grid>
                 </ThemeProvider>
             {/*</Box>*/}
