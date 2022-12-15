@@ -12,7 +12,8 @@ class greenTheme extends baseTheme {
 
         this.bgColor = green[400];
         this.textColor = grey["A200"];
-        this.skillColors = [lightBlue[500], teal[400], purple[500], lime[600],  orange[700], indigo[400]]
+        this.skillColors = [lightBlue[500], teal[400], purple[500], lime[600],  orange[700], indigo[400]];
+        this.skillTextColor = grey["A100"];
 
     }
 }

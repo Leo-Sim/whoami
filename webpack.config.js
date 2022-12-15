@@ -7,6 +7,7 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist",
+        // publicPath: "/"
     },
     module: {
         rules: [
@@ -17,13 +18,15 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                exclude: [],
                 use: ["style-loader", "css-loader", "postcss-loader"],
             }
         ],
     },
     resolve: {
         extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
+    },
+    devServer: {
+        historyApiFallback: true
     },
     plugins: [
         new HtmlWebpackPlugin({

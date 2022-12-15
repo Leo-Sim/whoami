@@ -4,6 +4,7 @@ import ColorThemes from "../theme/colorThemes";
 import baseTheme from "../theme/baseTheme";
 import GreenTheme from "../theme/greenTheme";
 import WhiteTheme from "../theme/whiteTheme";
+import BlackTheme from "../theme/blackTheme";
 
 
 // context managed globally
@@ -29,7 +30,9 @@ const curTheme = (): baseTheme => {
         case ColorThemes.GREEN:
             curTheme = new GreenTheme();
             break;
-
+        case ColorThemes.BLACK:
+            curTheme = new BlackTheme();
+            break;
         case ColorThemes.WHITE:
         default:
             curTheme = new WhiteTheme();

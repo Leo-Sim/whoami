@@ -3,7 +3,8 @@ class baseTheme {
 
     private _bgColor: string;
     private _textColor: string;
-    private _skillColors: Array<string>
+    private _skillColors: Array<string>;
+    private _skillTextColor: string;
 
     constructor() {
     }
@@ -30,6 +31,13 @@ class baseTheme {
 
     set skillColors(value: Array<string>) {
         this._skillColors = value;
+    }
+    get skillTextColor(): string {
+        return this._skillTextColor;
+    }
+
+    set skillTextColor(value: string) {
+        this._skillTextColor = value;
     }
 }
 
