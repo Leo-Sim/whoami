@@ -32,7 +32,8 @@ const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: b
         backgroundColor: c,
         borderRadius: 5,
         whiteSpace: "normal",
-        position: "relative"
+        position: "relative",
+        color: curColorTheme.skillTextColor
     }));
 
     // Add css for colored div by platform
@@ -82,20 +83,6 @@ const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: b
         })
     ));
 
-    const Progress = styled(CircularProgress)(() => (
-        getCssByPlatform(theme, {
-            height: "10px",
-            width: "10px"
-
-        }, {
-            height: "10px",
-            width: "10px"
-        }, {
-            height: "150px",
-            width: "150px"
-        })
-    ));
-
     // determine size of circular progress
     const platform = getCurBreakPoint();
     let circleSize = 0;
@@ -119,15 +106,9 @@ const getSkillTemplate = (name: string, score: number, theme: Theme, isMobile: b
                     {name}
                 </TextBox>
                 <ProgressBox>
-
-                        {/*<Progress  variant={"determinate"} style={{width:"100px"}} value={score}></Progress>*/}
-                        {/*<CircularProgress  style={{height: circleSize + "px", width: circleSize + "px"}} variant={"determinate"} value={score}></CircularProgress>*/}
-                        <span>{ score }</span>
-
+                    <span>{ score }</span>
                     <LinearProgress variant={"determinate"} style={{ height:'10px', color: grey[500]}} value={score}/>
                 </ProgressBox>
-
-
             </OutBox>
         </ThemeProvider>
     )
