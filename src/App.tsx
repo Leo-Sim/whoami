@@ -13,6 +13,10 @@ import Skills from "./pages/pc/Skills";
 
 import {getCssByPlatform, getCurBreakPoint, getThemeByPlatform} from "./utils/platform";
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
+
+
 
 const MENU_WIDTH_TABLET = 160;
 const MENU_WIDTH_DESKTOP = 200;
@@ -23,10 +27,8 @@ export default () => {
 
     // set theme
     const globalContext = {
-        theme: ColorThemes.GREEN
+        theme: ColorThemes.BLACK
     }
-
-    const isMobile = getCurBreakPoint() == "mobile"
 
     const theme = getThemeByPlatform();
 
@@ -67,6 +69,25 @@ export default () => {
         })
     ));
 
+    // social images div
+    const SnsTemplate =  styled("div")(() => (
+        getCssByPlatform(theme, {
+            paddingLeft: CONTENT_PADDING_MOBILE + "px",
+            paddingRight: CONTENT_PADDING_MOBILE + "px"
+        },{
+            position: "absolute",
+            bottom: 10,
+            color: "white",
+            cursor: "pointer",
+            paddingLeft: "10px"
+        }, {
+            position: "absolute",
+            bottom: 10,
+            color: "white",
+            cursor: "pointer",
+            paddingLeft: "10px"
+        })
+    ));
     return (
 
         <div>
@@ -75,6 +96,7 @@ export default () => {
 
                     <Left>
                         <Menus></Menus>
+                        {/*<Font*/}
                     </Left>
 
                     <Contents>
@@ -87,6 +109,11 @@ export default () => {
                     </Contents>
                 </BrowserRouter>
             </ContextProvider>
+
+            <SnsTemplate>
+                <FontAwesomeIcon  icon={faGithub} size={"2x"} style={{ marginRight: "10px", color:"white"}}/>
+                <FontAwesomeIcon  icon={faLinkedin} size={"2x"}/>
+            </SnsTemplate>
         </div>
     )
 }
