@@ -11,12 +11,12 @@ import ColorThemes from "./theme/colorThemes";
 import Summary from "./pages/pc/Summary";
 import Skills from "./pages/pc/Skills";
 
-import {getCssByPlatform, getCurBreakPoint, getThemeByPlatform} from "./utils/platform";
+import {getCssByPlatform, getThemeByPlatform} from "./utils/platform";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
+import {faGithub, faLinkedin, faFacebook, faInstagram} from "@fortawesome/free-brands-svg-icons";
 
-
+import {FileReader, Sns} from "./utils/file";
 
 const MENU_WIDTH_TABLET = 160;
 const MENU_WIDTH_DESKTOP = 200;
@@ -73,21 +73,31 @@ export default () => {
     const SnsTemplate =  styled("div")(() => (
         getCssByPlatform(theme, {
             paddingLeft: CONTENT_PADDING_MOBILE + "px",
-            paddingRight: CONTENT_PADDING_MOBILE + "px"
+            paddingRight: CONTENT_PADDING_MOBILE + "px",
+            position: "absolute",
+            top: 2,
+            right: 0
         },{
             position: "absolute",
             bottom: 10,
-            color: "white",
-            cursor: "pointer",
             paddingLeft: "10px"
         }, {
             position: "absolute",
             bottom: 10,
-            color: "white",
-            cursor: "pointer",
             paddingLeft: "10px"
         })
     ));
+
+    const SnsDiv = styled("div")(() => ({
+        display: "inline-block",
+        cursor: "pointer",
+        marginRight: "10px"
+    }));
+
+    // Get all sns and show icon if exist.
+    const fileReader = new FileReader();
+    const sns: Sns = fileReader.getSNS();
+
     return (
 
         <div>
@@ -111,9 +121,36 @@ export default () => {
             </ContextProvider>
 
             <SnsTemplate>
-                <FontAwesomeIcon  icon={faGithub} size={"2x"} style={{ marginRight: "10px", color:"white"}}/>
-                <FontAwesomeIcon  icon={faLinkedin} size={"2x"}/>
+                { sns.github &&
+                    <SnsDiv>
+                        <a href={sns.github} target='_blank'>
+                            <FontAwesomeIcon  icon={faGithub} size={"2x"}/>
+                        </a>
+                    </SnsDiv>
+                }
+                { sns.linkedin &&
+                    <SnsDiv>
+                        <a href={sns.linkedin} target='_blank'>
+                            <FontAwesomeIcon  icon={faLinkedin} size={"2x"}/>
+                        </a>
+                    </SnsDiv>
+                }
+                { sns.facebook &&
+                    <SnsDiv>
+                        <a href={sns.facebook} target='_blank'>
+                            <FontAwesomeIcon  icon={faFacebook} size={"2x"}/>
+                        </a>
+                    </SnsDiv>
+                }
+                { sns.instagram &&
+                    <SnsDiv>
+                        <a href={sns.instagram} target='_blank'>
+                            <FontAwesomeIcon  icon={faInstagram} size={"2x"}/>
+                        </a>
+                    </SnsDiv>
+                }
             </SnsTemplate>
         </div>
     )
 }
+

@@ -33,7 +33,9 @@ export default () => {
     // Button for Showing/Hiding Menu. Display only on 'mobile'
     const MobileMenuBtn = styled(MenuIcon)(() => (
         getCssByPlatform(theme, {
-            display: 'inline-block'
+            display: 'inline-block',
+            paddingTop: "5px",
+            marginBottom: "10px"
         }, {
             display: 'none'
         }, {
@@ -53,7 +55,6 @@ export default () => {
         backgroundColor: isMobile? colorTheme.bgColor : 'transparent',
         color: colorTheme.textColor,
         display: isMenuHidden? "none": "block"
-
     }));
 
     return(
