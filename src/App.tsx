@@ -18,7 +18,7 @@ import {faGithub, faLinkedin, faFacebook, faInstagram} from "@fortawesome/free-b
 
 import {FileReader, Sns} from "./utils/file";
 
-const MENU_WIDTH_TABLET = 160;
+const MENU_WIDTH_TABLET = 200;
 const MENU_WIDTH_DESKTOP = 200;
 const CONTENT_PADDING_NOT_MOBILE = 20;
 const CONTENT_PADDING_MOBILE = 10;
@@ -76,22 +76,38 @@ export default () => {
             paddingRight: CONTENT_PADDING_MOBILE + "px",
             position: "absolute",
             top: 2,
-            right: 0
+            right: 0,
+            borderSpacing:"5px"
         },{
             position: "absolute",
             bottom: 10,
-            paddingLeft: "10px"
+            paddingLeft: "10px",
+            borderSpacing:"5px"
         }, {
             position: "absolute",
             bottom: 10,
-            paddingLeft: "10px"
+            paddingLeft: "10px",
+            borderSpacing:"5px"
         })
     ));
 
-    const SnsDiv = styled("div")(() => ({
-        display: "inline-block",
+    const SnsDiv = styled("div")((theme) => ({
+        // marginRight: "50px",
+        borderSpacing:"100px",
         cursor: "pointer",
-        marginRight: "10px"
+        position: "relative",
+        display: "table-cell",
+        width: "40px",
+        height: "40px",
+        verticalAlign: "middle",
+        textAlign: "center",
+        border: "1px solid black",
+        borderRadius: "50%",
+        backgroundColor: "white",
+        '&:hover': {
+            transform: "scale(1.2)",
+            marginRight: "20px"
+        }
     }));
 
     // Get all sns and show icon if exist.
@@ -121,31 +137,33 @@ export default () => {
             </ContextProvider>
 
             <SnsTemplate>
+
                 { sns.github &&
                     <SnsDiv>
                         <a href={sns.github} target='_blank'>
-                            <FontAwesomeIcon  icon={faGithub} size={"2x"}/>
+                            <FontAwesomeIcon  icon={faGithub} size={"xl"}/>
                         </a>
                     </SnsDiv>
                 }
+
                 { sns.linkedin &&
                     <SnsDiv>
                         <a href={sns.linkedin} target='_blank'>
-                            <FontAwesomeIcon  icon={faLinkedin} size={"2x"}/>
+                            <FontAwesomeIcon  icon={faLinkedin} size={"xl"}/>
                         </a>
                     </SnsDiv>
                 }
                 { sns.facebook &&
                     <SnsDiv>
                         <a href={sns.facebook} target='_blank'>
-                            <FontAwesomeIcon  icon={faFacebook} size={"2x"}/>
+                            <FontAwesomeIcon  icon={faFacebook} size={"xl"}/>
                         </a>
                     </SnsDiv>
                 }
                 { sns.instagram &&
                     <SnsDiv>
                         <a href={sns.instagram} target='_blank'>
-                            <FontAwesomeIcon  icon={faInstagram} size={"2x"}/>
+                            <FontAwesomeIcon  icon={faInstagram} size={"xl"}/>
                         </a>
                     </SnsDiv>
                 }

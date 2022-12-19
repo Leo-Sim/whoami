@@ -8,14 +8,19 @@ import {Link} from "react-router-dom";
 
 import {styled} from "@mui/material/styles";
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {MenuList, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
 import {Collapse} from "@mui/material";
 import {curTheme} from "../../context/context";
+
+import {FontAwesomeIconProps} from "@fortawesome/react-fontawesome";
 
 import SchoolIcon from '@mui/icons-material/School';
 import MenuIcon from '@mui/icons-material/Menu';
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import EditIcon from "@mui/icons-material/Edit";
+import WorkIcon from "@mui/icons-material/Work";
 
 import baseTheme from "../../theme/baseTheme";
 
@@ -31,11 +36,12 @@ export default () => {
     const theme = getThemeByPlatform()
 
     // Button for Showing/Hiding Menu. Display only on 'mobile'
-    const MobileMenuBtn = styled(MenuIcon)(() => (
+    const MobileMenuBtn = styled(FontAwesomeIcon)(() => (
         getCssByPlatform(theme, {
             display: 'inline-block',
-            paddingTop: "5px",
-            marginBottom: "10px"
+            paddingTop: "15px",
+            paddingLeft: "10px",
+            marginBottom: "14px"
         }, {
             display: 'none'
         }, {
@@ -64,7 +70,8 @@ export default () => {
             width: '100%'}}
         >
             <div onClick={() => clickMobileMenuBtn()}>
-                <MobileMenuBtn ></MobileMenuBtn>
+                {/*<MobileMenuBtn fontSize="large"></MobileMenuBtn>*/}
+                <MobileMenuBtn icon={faBars} size={"xl"}/>
             </div>
 
             {
@@ -86,7 +93,14 @@ export default () => {
                                 <ListItemText>Education</ListItemText>
                             </MenuItem>
                         </Link>
-                        <MenuItem>history</MenuItem>
+                        <Link to={"/work"} onClick={() => isMobile && clickMobileMenuBtn()}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <WorkIcon sx={{color: colorTheme.textColor}} fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Work Experience</ListItemText>
+                            </MenuItem>
+                        </Link>
                         <Link to={"/skills"} onClick={() => isMobile && clickMobileMenuBtn()}>
                             <MenuItem>
                                 <ListItemIcon>
@@ -95,7 +109,7 @@ export default () => {
                                 <ListItemText>Skill</ListItemText>
                             </MenuItem>
                         </Link>
-                        <MenuItem>history</MenuItem>
+
                     </ColoredMenuList>
                 </Collapse>
             }
