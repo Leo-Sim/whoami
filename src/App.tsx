@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {styled} from "@mui/material/styles";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Education from "./pages/pc/Education";
+import WorkHistory from "./component/common/WorkHistory";
 
 import Menus from "./component/common/Menus";
 
@@ -81,38 +82,46 @@ export default () => {
         },{
             position: "absolute",
             bottom: 10,
-            paddingLeft: "10px",
-            borderSpacing:"5px"
+            paddingLeft: "1px",
+            borderSpacing:"12px"
         }, {
             position: "absolute",
             bottom: 10,
-            paddingLeft: "10px",
-            borderSpacing:"5px"
+            paddingLeft: "1px",
+            borderSpacing:"12px"
         })
     ));
 
     const SnsDiv = styled("div")((theme) => ({
-        // marginRight: "50px",
-        borderSpacing:"100px",
         cursor: "pointer",
         position: "relative",
         display: "table-cell",
-        width: "40px",
-        height: "40px",
+        width: "35px",
+        height: "35px",
         verticalAlign: "middle",
         textAlign: "center",
         border: "1px solid black",
         borderRadius: "50%",
         backgroundColor: "white",
-        '&:hover': {
-            transform: "scale(1.2)",
-            marginRight: "20px"
-        }
+        // '&:hover': {
+        //     transform: "scale(1.2)",
+        //     marginRight: "20px",
+        //     '& $Left': {
+        //         width: "400px"
+        //     }
+        // }
     }));
 
     // Get all sns and show icon if exist.
     const fileReader = new FileReader();
     const sns: Sns = fileReader.getSNS();
+
+
+    // state for sns buttons. This is for making icons big or small
+    const [git, setGit] = useState(false);
+    const [linkedin, setLinkedin] = useState(false);
+    const [facebook, setFacebook] = useState(false);
+    const [instagram, setInstagram] = useState(false);
 
     return (
 
@@ -129,6 +138,7 @@ export default () => {
                         <Routes>
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/education" element={<Education />}></Route>
+                            <Route path="/work" element={<WorkHistory />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
                             {/*<Route path="*" element={ <Navigate to="/" />} />*/}
                         </Routes>
@@ -139,31 +149,40 @@ export default () => {
             <SnsTemplate>
 
                 { sns.github &&
-                    <SnsDiv>
+                    <SnsDiv
+                        onMouseEnter={() => setGit(true) }
+                        onMouseLeave={() => setGit(false) }
+                        style={git? { transform: "scale(1.3)"} : linkedin || facebook || instagram? { transform: "scale(0.7)"} : {}}>
                         <a href={sns.github} target='_blank'>
-                            <FontAwesomeIcon  icon={faGithub} size={"xl"}/>
+                            <FontAwesomeIcon  icon={faGithub} size={"lg"}/>
                         </a>
                     </SnsDiv>
                 }
 
                 { sns.linkedin &&
-                    <SnsDiv>
+                    <SnsDiv onMouseEnter={() => setLinkedin(true) }
+                            onMouseLeave={() => setLinkedin(false) }
+                            style={linkedin? { transform: "scale(1.3)"} : git || facebook || instagram? { transform: "scale(0.7)"} : {}}>
                         <a href={sns.linkedin} target='_blank'>
-                            <FontAwesomeIcon  icon={faLinkedin} size={"xl"}/>
+                            <FontAwesomeIcon  icon={faLinkedin} size={"lg"}/>
                         </a>
                     </SnsDiv>
                 }
                 { sns.facebook &&
-                    <SnsDiv>
+                    <SnsDiv onMouseEnter={() => setFacebook(true) }
+                            onMouseLeave={() => setFacebook(false) }
+                            style={facebook? { transform: "scale(1.3)"} : git || linkedin || instagram? { transform: "scale(0.7)"} : {}}>
                         <a href={sns.facebook} target='_blank'>
-                            <FontAwesomeIcon  icon={faFacebook} size={"xl"}/>
+                            <FontAwesomeIcon  icon={faFacebook} size={"lg"}/>
                         </a>
                     </SnsDiv>
                 }
                 { sns.instagram &&
-                    <SnsDiv>
+                    <SnsDiv onMouseEnter={() => setInstagram(true) }
+                            onMouseLeave={() => setInstagram(false) }
+                            style={instagram? { transform: "scale(1.3)"} : git || linkedin || facebook? { transform: "scale(0.7)"} : {}}>
                         <a href={sns.instagram} target='_blank'>
-                            <FontAwesomeIcon  icon={faInstagram} size={"xl"}/>
+                            <FontAwesomeIcon  icon={faInstagram} size={"lg"}/>
                         </a>
                     </SnsDiv>
                 }
