@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App"
 import "./tailwind.css"
+import "./locale/i18n";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
