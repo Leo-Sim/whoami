@@ -1,4 +1,5 @@
 
+import {useTranslation} from "react-i18next";
 
 class Utils {
 
@@ -10,6 +11,31 @@ class Utils {
         }
 
         return colors[this._index++];
+    }
+
+    static getPatternMatch(pattern: string, text: string) {
+        const regExp = new RegExp(pattern)
+        return regExp.test(text);
+    }
+
+    static getPeriod = (sDate: Date, eDate: Date) => {
+        const { t } = useTranslation()
+        let result: string = "";
+
+        const y: number = (eDate.getFullYear() - sDate.getFullYear());
+        if(y > 0) {
+            result += y + " " + t("year")
+        }
+
+        const m = (eDate.getMonth() - sDate.getMonth());
+        if (m > 0) {
+            if (y) {
+                result += " "
+            }
+            result += m + " " + t("months")
+        }
+
+        return result
     }
 }
 export default Utils

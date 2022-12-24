@@ -55,6 +55,14 @@ const getCssByPlatform = (theme: Theme, mobile: object, tablet: any, desktop: an
     });
 }
 
+const getCommonCss = (theme: Theme, css: object) => {
 
-export {getThemeByPlatform, getCurBreakPoint, getCssByPlatform}
+    return ({
+        [theme.breakpoints.between("mobile","tablet")]: css,
+        [theme.breakpoints.between("tablet","desktop")]: css,
+        [theme.breakpoints.up("desktop")]: css
+    });
+}
+
+export {getThemeByPlatform, getCurBreakPoint, getCssByPlatform, getCommonCss}
 

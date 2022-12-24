@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 
+import "./css/global.css";
 import {styled} from "@mui/material/styles";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Education from "./pages/pc/Education";
-import WorkHistory from "./component/common/Works";
+import Work from "./pages/pc/Work";
 import Sns from "./component/common/Sns";
 
 import Menus from "./component/common/Menus";
@@ -14,6 +15,7 @@ import Summary from "./pages/pc/Summary";
 import Skills from "./pages/pc/Skills";
 
 import {getCssByPlatform, getThemeByPlatform} from "./utils/platform";
+import {useTranslation} from "react-i18next";
 
 const MENU_WIDTH_TABLET = 200;
 const MENU_WIDTH_DESKTOP = 200;
@@ -65,14 +67,15 @@ export default () => {
             paddingRight: CONTENT_PADDING_NOT_MOBILE + "px"
         })
     ));
+    const { t, i18n } = useTranslation()
 
     return (
 
-        <div>
+        <div style={{fontFamily:"namu-buri"}}>
             <ContextProvider value={globalContext}>
                 <BrowserRouter>
 
-                    <Left>
+                    <Left >
                         <Menus></Menus>
                         {/*<Font*/}
                     </Left>
@@ -81,7 +84,7 @@ export default () => {
                         <Routes>
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/education" element={<Education />}></Route>
-                            <Route path="/work" element={<WorkHistory />}></Route>
+                            <Route path="/work" element={<Work />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
                             {/*<Route path="*" element={ <Navigate to="/" />} />*/}
                         </Routes>

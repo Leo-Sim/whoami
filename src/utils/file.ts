@@ -1,10 +1,28 @@
+// Read resume file and parse into separate information
 
 import info from '../../public/info/detail.json';
 
 interface FileContent {
     imagePath: string
     skills: Array<Skill>
-    sns: Sns
+    sns: Sns,
+    workHistory: Array<WorkHistory>
+}
+
+interface WorkHistory {
+    name: string,
+    startDate: string,
+    endDate?: string,
+    role: string,
+    projects?: Array<Project>
+}
+
+interface Project {
+    name: string,
+    startDate: string,
+    endDate?: string,
+    skills: Array<string>,
+    desc: string
 }
 
 interface Skill {
@@ -36,9 +54,15 @@ class FileReader {
     public getSNS() : Sns {
         return this.f.sns;
     }
+
+    public getWorkHistory() : Array<WorkHistory> {
+        return this.f.workHistory;
+    }
 }
 
 
 
 
-export {FileContent, FileReader, Skill, Sns};
+export {FileContent, FileReader, Sns};
+export {Skill}
+export {WorkHistory, Project}

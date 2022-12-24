@@ -1,5 +1,5 @@
 
-
-.green {
-    background-color: #5ECB24;
+@font-face {
+    font-family: "namu-buri";
+    src: url(../font/maruburi/MaruBuri-Regular.otf);
 }
