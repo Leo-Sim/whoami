@@ -20,9 +20,9 @@ const defaultContext: GlobalContext = {
 const globalContext = React.createContext<GlobalContext>(defaultContext);
 const ContextProvider = globalContext.Provider;
 
-const curTheme = (): baseTheme => {
+const curTheme = (colortheme?: ColorThemes): baseTheme => {
     const context = useContext(globalContext);
-    const theme: ColorThemes = context.theme;
+    const theme: ColorThemes = colortheme? colortheme : context.theme;
 
 
     let curTheme: baseTheme;

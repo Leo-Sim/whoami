@@ -7,8 +7,8 @@ class blackTheme extends baseTheme {
     constructor() {
         super();
 
-        this.bgColor = grey[900];
-        this.textColor = grey["A100"];
+        this.bgColor = "#222";
+        this.textColor = "#e6e6e6";
         this.skillColors = [grey[900]];
         this.skillTextColor = grey["A100"];
 

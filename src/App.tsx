@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 
 import "./css/global.css";
 import {styled} from "@mui/material/styles";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Education from "./pages/pc/Education";
 import Work from "./pages/pc/Work";
 import Sns from "./component/common/Sns";
 
 import Menus from "./component/common/Menus";
 
-import { ContextProvider } from './context/context';
+import {ContextProvider, curTheme} from './context/context';
 import ColorThemes from "./theme/colorThemes";
 import Summary from "./pages/pc/Summary";
 import Skills from "./pages/pc/Skills";
@@ -24,10 +24,16 @@ const CONTENT_PADDING_MOBILE = 10;
 
 export default () => {
 
+
+    // #TODO get color theme from outside
+    const colorTheme : ColorThemes = ColorThemes.BLACK
+
     // set theme
     const globalContext = {
-        theme: ColorThemes.BLACK
+        theme: colorTheme
     }
+
+    const curColorTheme = curTheme(colorTheme);
 
     const theme = getThemeByPlatform();
 
@@ -70,8 +76,7 @@ export default () => {
     const { t, i18n } = useTranslation()
 
     return (
-
-        <div style={{fontFamily:"namu-buri"}}>
+        <div style={{fontFamily:"namu-buri", minHeight:"100vh", backgroundColor: curColorTheme.bgColor}}>
             <ContextProvider value={globalContext}>
                 <BrowserRouter>
 
@@ -80,7 +85,7 @@ export default () => {
                         {/*<Font*/}
                     </Left>
 
-                    <Contents>
+                    <Contents style={{height: "100%"}}>
                         <Routes>
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/education" element={<Education />}></Route>
