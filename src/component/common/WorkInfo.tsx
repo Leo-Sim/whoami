@@ -2,27 +2,31 @@
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 
-import {Box, Grid, ThemeProvider} from "@mui/material";
+import "../../css/component/workInfo.css"
+
+import {Box, Collapse, Grid, List, ListItemText, ThemeProvider} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
+import {faAngleDown, faAngleUp} from "@fortawesome/free-solid-svg-icons";
 import {getCommonCss, getCssByPlatform, getThemeByPlatform} from "../../utils/platform";
 import {curTheme} from "../../context/context";
-import {WorkHistory} from "../../utils/file";
+import {Project, WorkHistory} from "../../utils/file";
 import Utils from "../../utils/utils";
 
 
 // Valid pattern for date
 const datePattern: string = "^\\d{4}\\-(0[1-9]|1[012])$";
+const theme = getThemeByPlatform();
 
-interface workInfoProps {
-    workHistory: WorkHistory
+// interface for props.
+interface WorkHistoryProperty extends WorkHistory{
+    children: React.ReactElement | React.ReactElement[]
 }
 
-export default (props: WorkHistory) => {
+const WorkInfo = (props: WorkHistoryProperty) => {
 
     const curColorTheme = curTheme();
-    const theme = getThemeByPlatform();
+
 
     const [isSummary, setSummary] = useState(true);
 
@@ -30,7 +34,9 @@ export default (props: WorkHistory) => {
     // #TODO get start date, end date and calcuate period, if end date is not specified, it's current job.
     let period: string = "N/A";
     let isCurJob: boolean = false;
+
     const isStartDateValid = Utils.getPatternMatch(datePattern, props.startDate);
+
     const sDate: Date = isStartDateValid? new Date(adjustDate(props.startDate) + "-01") : null;
     let eDate: Date;
     if(props.endDate) {
@@ -52,8 +58,6 @@ export default (props: WorkHistory) => {
 
     const Summary = styled(Grid)(() => (
         getCommonCss(theme, {
-            // height: "100px",
-            // lineHeight:"100px",
             border: "1px solid black",
             borderRadius: "5px",
 
@@ -71,7 +75,7 @@ export default (props: WorkHistory) => {
 
         getCommonCss(theme, {
             cursor: "pointer",
-            color: "black",
+            color: curColorTheme.textColor,
             "&:hover": {
                 color: "red"
             },
@@ -84,7 +88,7 @@ export default (props: WorkHistory) => {
         }, {
             fontSize: "25px"
         }, {
-            fontSize: "25px"
+            fontSize: "25px",
         })
     ));
     const SubInfo = styled(Box)(() => (
@@ -97,8 +101,14 @@ export default (props: WorkHistory) => {
         })
     ));
 
+    // #TODO 현재직장인것 표시 어떻게 할지 정하기
+
+
+    // Detail info
+    const [isDetail, showDetail] = useState(false);
+
     return(
-        <Box style={{ marginBottom: "30px"}}>
+        <Box style={{ marginTop:"20px", marginBottom: "30px", color: curColorTheme.textColor}}>
             <ThemeProvider theme={theme}>
                 {
                     // show summary info
@@ -110,29 +120,115 @@ export default (props: WorkHistory) => {
                             <SubInfo>{ period }</SubInfo>
                         </NameGrid>
                         {/* work period and list of projects. */}
-                        <Grid item mobile={9} tablet={9} desktop={9}  style={{backgroundColor:"yellow"}}>
+                        <Grid item mobile={9} tablet={9} desktop={9}  style={{}}>
 
+                            <SubInfo>
+                                {/*{ props.role }*/}
+                            </SubInfo>
+                            <SubInfo>
+                                {/*dd*/}
+                            </SubInfo>
                             <ArrowBox>
-                                <Arrow icon={faAngleDown} size={"lg"} onClick={e =>{}}/>
+                                <Arrow icon={faAngleDown}
+                                       size={"lg"}
+                                       style={{display: isDetail? "none" : ""}}
+                                       onClick={e => showDetail(true)}
+                                />
+                                <Arrow icon={faAngleUp}
+                                       size={"lg"}
+                                       style={{display: !isDetail? "none" : ""}}
+                                       onClick={e => showDetail(false)}
+                                />
                             </ArrowBox>
                         </Grid>
-                        <Grid item mobile={1} tablet={1} desktop={1}>
 
-                        </Grid>
                     </Summary>
+
                 }
+
+                {/* Show detailed info when button on right is clicked */}
+                <Collapse timeout={500} in={isDetail}>
+                    <Box style={{marginTop: "20px"}}>
+
+                        <Box>
+                            {/* #TODO format date type by locale.*/}
+
+                            {Utils.formatDate(props.startDate)} ~ {Utils.formatDate(props.endDate)} / { props.location }
+                        </Box>
+                        {
+                            React.Children.map(props.children, (child, i) => {
+                                if(child) {
+                                    return(
+                                        <ProjectInfo name={child.props.name}
+                                                     startDate={child.props.startDate}
+                                                     endDate={child.props.endDate}
+                                                     skills={child.props.skills}
+                                                     desc={child.props.desc}
+                                                     role={child.props.role}
+                                        />
+                                    )
+                                }
+                            })
+                        }
+                    </Box>
+                </Collapse>
             </ThemeProvider>
         </Box>
     )
 }
 
-const Project = () => {
 
+
+const ProjectInfo = (props: Project) => {
+
+    const DetailInfo = styled(Box)(() => (
+        getCssByPlatform(theme, {
+            fontSize: "8px"
+        }, {
+            fontSize: "14px"
+        }, {
+            fontSize: "14px"
+        })
+    ))
+
+    const ProjectName = styled(Grid)(() => (
+        getCssByPlatform(theme, {
+            fontSize: "12px"
+        }, {
+            fontSize: "20px"
+        }, {
+            fontSize: "20px",
+        })
+    ));
 
 
     return (
-        <Box>
+        <Box style={{marginTop:"20px", marginBottom: "20px"}}>
+            <ThemeProvider theme={theme}>
+                <Grid container spacing={2}>
 
+                    <ProjectName item mobile={3} tablet={3} desktop={3}>
+                        {props.name}
+                        <DetailInfo>
+                            {Utils.formatDate(props.startDate)} ~ {Utils.formatDate(props.endDate)}
+                        </DetailInfo>
+
+                    </ProjectName>
+                    <Grid item mobile={9} tablet={9} desktop={9}>
+                        <List disablePadding>
+                            <ListItemText> {props.skills.join(",  ")} </ListItemText>
+                            {
+                                props.role.map((p, i) => {
+                                    return (<ListItemText key={i}> - {p}</ListItemText>)
+                                })
+                            }
+                        </List>
+
+                    </Grid>
+
+
+                </Grid>
+            </ThemeProvider>
         </Box>
     )
 }
@@ -147,3 +243,5 @@ const adjustDate = (date: string) => {
 
     return date.substring(0, date.indexOf("-")) + "-" + newMonth;
 }
+
+export { WorkInfo, ProjectInfo }

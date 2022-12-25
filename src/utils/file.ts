@@ -10,18 +10,20 @@ interface FileContent {
 }
 
 interface WorkHistory {
-    name: string,
-    startDate: string,
-    endDate?: string,
-    role: string,
+    name: string
+    location: string
+    startDate: string
+    endDate?: string
+    role: string
     projects?: Array<Project>
 }
 
 interface Project {
-    name: string,
-    startDate: string,
-    endDate?: string,
-    skills: Array<string>,
+    name: string
+    startDate: string
+    endDate?: string
+    skills: Array<string>
+    role: Array<string>
     desc: string
 }
 
