@@ -1,4 +1,6 @@
 {
   "year": "year(s)",
-  "months" : "month(s)"
+  "months" : "month(s)",
+  "save": "Save",
+  "cancel": "cancel"
 }

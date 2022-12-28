@@ -1,4 +1,6 @@
 {
   "year": "년",
-  "months" : "개월"
+  "months" : "개월",
+  "save": "저장",
+  "cancel": "취소"
 }

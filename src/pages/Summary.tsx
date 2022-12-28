@@ -1,12 +1,18 @@
 import React, {useState} from "react";
+import {renderToStaticMarkup} from "react-dom/server"
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload, faFilePdf} from "@fortawesome/free-solid-svg-icons";
 
-import {Box, Modal} from "@mui/material";
+import {Box, Modal, ButtonGroup, Button} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {getCommonCss, getCssByPlatform, getThemeByPlatform} from "../utils/platform";
 import {curTheme} from "../context/context";
+import {useTranslation} from "react-i18next";
+
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
 
 export default () => {
 
@@ -72,25 +78,65 @@ export default () => {
         }));
 
 
+    // download pdf
+
+    const [isOpened, setOpen] = useState(false);
 
 
-    const downloadPdf = () => {
-        alert('dd')
+    const summary = (
+        <div id="summary">
+
+
+
+        </div>
+    )
+
+    const { t, i18n } = useTranslation();
+
+    // download this page as pdf
+    const save = (summary: JSX.Element) => {
+
+        const s: string = renderToStaticMarkup(summary);
+        // const a = new DOMParser().parseFromString(s, "text/html")
+
+        html2canvas(document.querySelector("#summary")).then(canvas => {
+            document.body.appendChild(canvas);  // if you want see your screenshot in body.
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+
+            pdf.addImage(imgData, 'PNG', 10, 10 ,0, 0);
+            pdf.save("download.pdf");
+        });
+
     }
 
     return(
-        <div>
-            <Box>
-
-            </Box>
-
-            <IconBox onClick={downloadPdf}>
+        <Box>
+            <IconBox onClick={() => setOpen(true)}>
                 <Download>
                     <Disk className={"disk"} icon={faFilePdf} size={"2xl"}/>
                     <Arrow className={"arrow"} icon={faDownload} size={"2xl"}/>
                 </Download>
             </IconBox>
 
-        </div>
+            { summary }
+
+            <Modal open={isOpened}
+                   // onClose={!isOpened}
+                   style={{ }}>
+
+                <Box style={{backgroundColor: "white"}}>
+                    {summary}
+                    <Box>
+                        <ButtonGroup>
+                            <Button onClick={() => save(summary)}> { t("save")} </Button>
+                            <Button  onClick={() => setOpen(false)}> { t("cancel")} </Button>
+                        </ButtonGroup>
+                    </Box>
+                </Box>
+
+            </Modal>
+
+        </Box>
     )
 }
