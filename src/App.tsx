@@ -3,16 +3,16 @@ import React from "react";
 import "./css/global.css";
 import {styled} from "@mui/material/styles";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Education from "./pages/pc/Education";
-import Work from "./pages/pc/Work";
+import Education from "./pages/Education";
+import Work from "./pages/Work";
 import Sns from "./component/common/Sns";
 
 import Menus from "./component/common/Menus";
 
 import {ContextProvider, curTheme} from './context/context';
 import ColorThemes from "./theme/colorThemes";
-import Summary from "./pages/pc/Summary";
-import Skills from "./pages/pc/Skills";
+import Summary from "./pages/Summary";
+import Skills from "./pages/Skills";
 
 import {getCssByPlatform, getThemeByPlatform} from "./utils/platform";
 import {useTranslation} from "react-i18next";
@@ -88,10 +88,10 @@ export default () => {
                     <Contents style={{height: "100%"}}>
                         <Routes>
                             <Route path="/summary" element={<Summary />}></Route>
-                            <Route path="/education" element={<Education />}></Route>
                             <Route path="/work" element={<Work />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
-                            {/*<Route path="*" element={ <Navigate to="/" />} />*/}
+                            <Route path="/education" element={<Education />}></Route>
+
                         </Routes>
                     </Contents>
                 </BrowserRouter>

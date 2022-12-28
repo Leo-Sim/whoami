@@ -3,10 +3,10 @@ import React, {useEffect, useState} from "react";
 import {Grid, Paper, Box, LinearProgress, CircularProgress, ThemeProvider, Theme} from "@mui/material";
 import {styled} from "@mui/material/styles";
 
-import {curTheme} from "../../context/context";
-import {FileReader, FileContent, Skill} from '../../utils/file'
-import {getThemeByPlatform, getCurBreakPoint, getCssByPlatform} from "../../utils/platform";
-import Utils from "../../utils/utils";
+import {curTheme} from "../context/context";
+import {FileReader, FileContent, Skill} from '../utils/file'
+import {getThemeByPlatform, getCurBreakPoint, getCssByPlatform} from "../utils/platform";
+import Utils from "../utils/utils";
 
 import {grey} from "@mui/material/colors";
 

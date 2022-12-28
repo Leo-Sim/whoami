@@ -85,14 +85,6 @@ export default () => {
                                 <ListItemText>Summary</ListItemText>
                             </MenuItem>
                         </Link>
-                        <Link to={"/education"} onClick={() => isMobile && clickMobileMenuBtn()}>
-                            <MenuItem>
-                                <ListItemIcon>
-                                    <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Education</ListItemText>
-                            </MenuItem>
-                        </Link>
                         <Link to={"/work"} onClick={() => isMobile && clickMobileMenuBtn()}>
                             <MenuItem>
                                 <ListItemIcon>
@@ -109,7 +101,14 @@ export default () => {
                                 <ListItemText>Skill</ListItemText>
                             </MenuItem>
                         </Link>
-
+                        <Link to={"/education"} onClick={() => isMobile && clickMobileMenuBtn()}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <SchoolIcon sx={{color: colorTheme.textColor}} fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Education</ListItemText>
+                            </MenuItem>
+                        </Link>
                     </ColoredMenuList>
                 </Collapse>
             }

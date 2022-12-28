@@ -1,8 +1,8 @@
 
 import React from "react";
 
-import {WorkInfo, ProjectInfo} from "../../component/common/WorkInfo";
-import {FileReader, WorkHistory, Project} from "../../utils/file";
+import {WorkInfo, ProjectInfo} from "../component/common/WorkInfo";
+import {FileReader, WorkHistory, Project} from "../utils/file";
 
 
 export default () => {
