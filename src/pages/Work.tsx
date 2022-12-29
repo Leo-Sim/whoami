@@ -4,7 +4,7 @@ import React from "react";
 import {WorkInfo, ProjectInfo} from "../component/common/WorkInfo";
 import {FileReader, WorkHistory, Project} from "../utils/file";
 
-
+// #TODO replace text with text components (BigText, MiddleText, SmallText)
 export default () => {
 
     const workHistory: Array<WorkHistory> = new FileReader().getWorkHistory();
