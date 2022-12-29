@@ -4,18 +4,23 @@ import {renderToStaticMarkup} from "react-dom/server"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload, faFilePdf} from "@fortawesome/free-solid-svg-icons";
 
-import {Box, Modal, ButtonGroup, Button} from "@mui/material";
+import {Box, Modal, ButtonGroup, Button, Grid, ThemeProvider, List, ListItemText} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {getCommonCss, getCssByPlatform, getThemeByPlatform} from "../utils/platform";
+import {FileReader, PersonalInfo, WorkHistory} from "../utils/file";
 import {curTheme} from "../context/context";
+
+import {BigText, MiddleText, SmallText, TinyText} from "../component/common/Style";
+
 import {useTranslation} from "react-i18next";
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 
-export default () => {
 
+export default () => {
+    const { t, i18n } = useTranslation();
     const colorTheme = curTheme();
     const theme = getThemeByPlatform();
 
@@ -40,7 +45,6 @@ export default () => {
     ));
 
     let Download = styled(Box)(() => (
-
         getCommonCss(theme, {
             width: "50px",
             height: "50px",
@@ -72,28 +76,124 @@ export default () => {
 
 
     const Arrow = styled(FontAwesomeIcon)(() =>({
-            transition: "opacity .3s, transform .3s",
-            opacity: "0",
-            transform: "rotate(-180deg) scale(1)",
-        }));
+        transition: "opacity .3s, transform .3s",
+        opacity: "0",
+        transform: "rotate(-180deg) scale(1)",
+    }));
 
+    const InfoBox = styled(Box)(() => ({
+        marginTop:"30px"
+    }));
 
-    // download pdf
+    const TitleBox = styled(Box)(() => ({
+        textAlign: "center",
+        borderBottom: "1px solid " + colorTheme.textColor,
+        marginBottom:"10px",
+        paddingBottom: "8px"
+    }));
 
-    const [isOpened, setOpen] = useState(false);
-
+    const fileReader: FileReader = new FileReader();
+    const personal: PersonalInfo = fileReader.getPersonalInfo();
+    const workList: Array<WorkHistory> = fileReader.getWorkHistory();
 
     const summary = (
-        <div id="summary">
+        <div id="summary"  style={{color: colorTheme.textColor, marginTop: "20px"}} >
+            <ThemeProvider theme={theme}>
+
+                {/* Name, phone, email*/}
+                <Box>
+                    <BigText style={{fontSize:"40px"}}>
+                        {personal.name}
+                    </BigText>
+                    <TinyText>
+
+                        {
+                            personal.phone &&
+                            <div> {personal.phone}</div>
+                        }
+                        <div>{personal.email}</div>
+                    </TinyText>
+                </Box>
+
+                {/* About */}
+                <InfoBox>
+                    <TitleBox>
+                        <MiddleText component="span">{t("about")}</MiddleText>
+                    </TitleBox>
+
+                    <SmallText>
+                        <Grid container>
+                            <Grid item mobile={3} tablet={3} desktop={3}>
+                                {
+                                    personal.imagePath &&
+
+                                    <img  style={{borderRadius:"50%", padding: "15px 30px 15px 30px", display: "inline-block", width: "100%", height: "100%"}} src={"/info/" + personal.imagePath} />
+
+                                }
+                            </Grid>
+                            <Grid item mobile={9} tablet={9} desktop={9}>
+
+                                <Box style={{display: "inline-block"}}>
+                                    { personal.descriptions.map(desc => <Box>{desc}</Box>)}
+                                </Box>
+                            </Grid>
+                        </Grid>
 
 
+                    </SmallText>
+                </InfoBox>
 
+                {/* Work experience */}
+                <InfoBox>
+                    <TitleBox>
+                        <MiddleText>{t("work")}</MiddleText>
+                    </TitleBox>
+                    <Box>
+
+                        {
+                            workList.map(work => {
+
+                                return (
+                                    <Grid container>
+                                        <Grid item mobile={3} tablet={3} desktop={3}>
+                                            <MiddleText>{work.name}</MiddleText>
+                                        </Grid>
+                                        <Grid item mobile={9} tablet={9} desktop={9}>
+                                            {
+                                                work.projects.map(project => {
+                                                    return (
+
+                                                        <Box>
+                                                            <SmallText>
+                                                                {project.name}
+                                                            </SmallText>
+                                                            <Box>
+                                                                {
+                                                                    project.role.map(r => {
+                                                                        return <TinyText>- {r}</TinyText>
+                                                                    })
+                                                                }
+                                                            </Box>
+                                                        </Box>
+                                                    )
+                                                })
+                                            }
+                                        </Grid>
+                                    </Grid>
+                                )
+                            })
+                        }
+
+                    </Box>
+                </InfoBox>
+
+            </ThemeProvider>
         </div>
     )
 
-    const { t, i18n } = useTranslation();
-
     // download this page as pdf
+    const [isOpened, setOpen] = useState(false);
+
     const save = (summary: JSX.Element) => {
 
         const s: string = renderToStaticMarkup(summary);

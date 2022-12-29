@@ -2,5 +2,7 @@
   "year": "year(s)",
   "months" : "month(s)",
   "save": "Save",
-  "cancel": "cancel"
+  "cancel": "cancel",
+  "about": "About",
+  "work": "Work Experience"
 }

@@ -3,10 +3,19 @@
 import info from '../../public/info/detail.json';
 
 interface FileContent {
-    imagePath: string
     skills: Array<Skill>
     sns: Sns,
     workHistory: Array<WorkHistory>
+    personalInfo: PersonalInfo
+}
+
+interface PersonalInfo {
+    name: string
+    email: string
+    phone?: string
+    imagePath?: string
+    // paragraph is separated by array index
+    descriptions: Array<string>
 }
 
 interface WorkHistory {
@@ -48,6 +57,10 @@ class FileReader {
         this.f = info;
     }
 
+    public getPersonalInfo(): PersonalInfo {
+        return this.f.personalInfo;
+    }
+
     public getSkills(): Array<Skill> {
        return this.f.skills;
     }
@@ -67,4 +80,4 @@ class FileReader {
 
 export {FileContent, FileReader, Sns};
 export {Skill}
-export {WorkHistory, Project}
+export {WorkHistory, Project, PersonalInfo}
