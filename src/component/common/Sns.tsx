@@ -13,17 +13,17 @@ export default () => {
     // social images div
     const SnsTemplate =  styled("div")(() => (
         getCssByPlatform(theme, {
-            position: "absolute",
+            position: "fixed",
             top: 2,
             right: 0,
             borderSpacing:"5px"
         },{
-            position: "absolute",
+            position: "fixed",
             bottom: 10,
             paddingLeft: "1px",
             borderSpacing:"12px"
         }, {
-            position: "absolute",
+            position: "fixed",
             bottom: 10,
             paddingLeft: "1px",
             borderSpacing:"12px"
