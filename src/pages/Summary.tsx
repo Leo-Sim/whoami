@@ -1,13 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
-import {renderToStaticMarkup} from "react-dom/server"
-
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload, faFilePdf} from "@fortawesome/free-solid-svg-icons";
 
-import {Box, Modal, ButtonGroup, Button, Grid, ThemeProvider, List, ListItemText} from "@mui/material";
+import {Box, Modal, ButtonGroup, Button, Grid, ThemeProvider} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {getCommonCss, getCssByPlatform, getThemeByPlatform} from "../utils/platform";
-import {FileReader, PersonalInfo, WorkHistory} from "../utils/file";
+import {FileReader, PersonalInfo, Skill, WorkHistory} from "../utils/file";
 import {curTheme} from "../context/context";
 
 import {BigText, MiddleText, SmallText, TinyText} from "../component/common/Style";
@@ -22,7 +20,7 @@ import jsPDF from "jspdf";
 export default () => {
 
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const colorTheme = curTheme();
     const theme = getThemeByPlatform();
 
@@ -34,6 +32,7 @@ export default () => {
             borderRadius: "50%",
         })
     ));
+
     IconBox = styled(IconBox)(() => (
         getCssByPlatform(theme, {
 
@@ -97,7 +96,10 @@ export default () => {
     const fileReader: FileReader = new FileReader();
     const personal: PersonalInfo = fileReader.getPersonalInfo();
     const workList: Array<WorkHistory> = fileReader.getWorkHistory();
+    const skills: Array<Skill> = fileReader.getSkills();
 
+
+    // Variables for image
     const ref = useRef<HTMLElement>();
     const [imgSize, setImgSize] = useState<string>();
 
@@ -106,9 +108,8 @@ export default () => {
         setImgSize(ref.current.clientHeight + "px");
     })
 
-
     const summary = (
-        <div id="summary"  style={{color: colorTheme.textColor, marginTop: "20px"}} >
+        <Box style={{paddingBottom: "20px"}}>
             <ThemeProvider theme={theme}>
 
                 {/* Name, phone, email*/}
@@ -116,13 +117,18 @@ export default () => {
                     <BigText style={{fontSize:"40px"}}>
                         {personal.name}
                     </BigText>
-                    <TinyText>
+                    <TinyText style={{paddingLeft: "10px"}}>
+
+                        {
+                            personal.address &&
+                            <Box>{personal.address}</Box>
+                        }
 
                         {
                             personal.phone &&
-                            <div> {personal.phone}</div>
+                            <Box> {personal.phone}</Box>
                         }
-                        <div>{personal.email}</div>
+                        <Box>{personal.email}</Box>
                     </TinyText>
                 </Box>
 
@@ -140,7 +146,6 @@ export default () => {
 
                                     <Box style={{textAlign: "center", marginRight: "5px"}}>
                                         <img  style={{
-
                                             borderRadius:"50%",
                                             display: "inline-block",
                                             width: imgSize,
@@ -159,6 +164,19 @@ export default () => {
 
 
                     </SmallText>
+                </InfoBox>
+
+                {/* Skills */}
+                <InfoBox>
+                    <TitleBox>
+                        <MiddleText>{t("skills")}</MiddleText>
+                    </TitleBox>
+
+                    {
+                        skills.map((skill, i) => {
+                            return <Box key={i}>- {skill.name}</Box>
+                        })
+                    }
                 </InfoBox>
 
                 {/* Work experience */}
@@ -212,24 +230,27 @@ export default () => {
                 </InfoBox>
 
             </ThemeProvider>
-        </div>
+        </Box>
     )
 
     // download this page as pdf
     const [isOpened, setOpen] = useState(false);
 
-    const save = (summary: JSX.Element) => {
+    const save = () => {
+        const el = document.querySelector<HTMLElement>("#summary");
 
-        const s: string = renderToStaticMarkup(summary);
-        // const a = new DOMParser().parseFromString(s, "text/html")
-
-        html2canvas(document.querySelector("#summary")).then(canvas => {
-            document.body.appendChild(canvas);  // if you want see your screenshot in body.
+        html2canvas(el).then(canvas => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF();
 
-            pdf.addImage(imgData, 'PNG', 10, 10 ,0, 0);
+
+            const w = pdf.internal.pageSize.getWidth();
+            const h = pdf.internal.pageSize.getHeight();
+
+            pdf.addImage(imgData, 'PNG', 1, 0 ,w, h);
+
             pdf.save("download.pdf");
+            setOpen(false);
         });
 
     }
@@ -243,17 +264,29 @@ export default () => {
                 </Download>
             </IconBox>
 
-            { summary }
+            <Box style={{color: colorTheme.textColor, marginTop: "20px"}}>
+                { summary }
+            </Box>
 
-            <Modal open={isOpened}
-                   // onClose={!isOpened}
-                   style={{ }}>
+            <Modal open={isOpened}>
 
-                <Box style={{backgroundColor: "white"}}>
-                    {summary}
-                    <Box>
+                <Box style={{
+                    backgroundColor: "white",
+                    overflow: "scroll",
+                    position:"absolute",
+                    paddingBottom:"50px",
+                    left: "10%",
+                    height: "100%",
+                    display: "block",
+                    color: "#2a2a2a"
+                }}>
+
+                    <Box id="summary">{summary}</Box>
+
+
+                    <Box style={{float: "right", marginRight: "20px"}}>
                         <ButtonGroup>
-                            <Button onClick={() => save(summary)}> { t("save")} </Button>
+                            <Button onClick={() => save()}> { t("save")} </Button>
                             <Button  onClick={() => setOpen(false)}> { t("cancel")} </Button>
                         </ButtonGroup>
                     </Box>
