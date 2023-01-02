@@ -11,7 +11,8 @@ interface FileContent {
 
 interface PersonalInfo {
     name: string
-    email: string
+    email?: string
+    address?: string
     phone?: string
     imagePath?: string
     // paragraph is separated by array index
