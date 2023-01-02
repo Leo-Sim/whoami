@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {renderToStaticMarkup} from "react-dom/server"
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -20,6 +20,8 @@ import jsPDF from "jspdf";
 
 
 export default () => {
+
+
     const { t, i18n } = useTranslation();
     const colorTheme = curTheme();
     const theme = getThemeByPlatform();
@@ -96,6 +98,15 @@ export default () => {
     const personal: PersonalInfo = fileReader.getPersonalInfo();
     const workList: Array<WorkHistory> = fileReader.getWorkHistory();
 
+    const ref = useRef<HTMLElement>();
+    const [imgSize, setImgSize] = useState<string>();
+
+    // Resize image
+    useEffect(() => {
+        setImgSize(ref.current.clientHeight + "px");
+    })
+
+
     const summary = (
         <div id="summary"  style={{color: colorTheme.textColor, marginTop: "20px"}} >
             <ThemeProvider theme={theme}>
@@ -127,14 +138,21 @@ export default () => {
                                 {
                                     personal.imagePath &&
 
-                                    <img  style={{borderRadius:"50%", padding: "15px 30px 15px 30px", display: "inline-block", width: "100%", height: "100%"}} src={"/info/" + personal.imagePath} />
+                                    <Box style={{textAlign: "center", marginRight: "5px"}}>
+                                        <img  style={{
+
+                                            borderRadius:"50%",
+                                            display: "inline-block",
+                                            width: imgSize,
+                                            height: imgSize}} src={"/info/" + personal.imagePath} />
+                                    </Box>
 
                                 }
                             </Grid>
                             <Grid item mobile={9} tablet={9} desktop={9}>
 
-                                <Box style={{display: "inline-block"}}>
-                                    { personal.descriptions.map(desc => <Box>{desc}</Box>)}
+                                <Box ref={ref} style={{display: "inline-block"}}>
+                                    { personal.descriptions.map((desc, j) => <Box key={j}>{desc}</Box>)}
                                 </Box>
                             </Grid>
                         </Grid>
@@ -151,35 +169,41 @@ export default () => {
                     <Box>
 
                         {
-                            workList.map(work => {
+                            workList.map((work, i) => {
 
                                 return (
-                                    <Grid container>
-                                        <Grid item mobile={3} tablet={3} desktop={3}>
-                                            <MiddleText>{work.name}</MiddleText>
-                                        </Grid>
-                                        <Grid item mobile={9} tablet={9} desktop={9}>
-                                            {
-                                                work.projects.map(project => {
-                                                    return (
-
-                                                        <Box>
-                                                            <SmallText>
-                                                                {project.name}
-                                                            </SmallText>
-                                                            <Box>
-                                                                {
-                                                                    project.role.map(r => {
-                                                                        return <TinyText>- {r}</TinyText>
-                                                                    })
-                                                                }
+                                    <Box key={i}>
+                                        <Grid container style={{marginTop: "10px", marginBottom: "20px"}}>
+                                            <Grid item mobile={3} tablet={3} desktop={3}>
+                                                <MiddleText>{work.name}</MiddleText>
+                                            </Grid>
+                                            <Grid item mobile={9} tablet={9} desktop={9}>
+                                                {
+                                                    work.projects.map((project, j) => {
+                                                        return (
+                                                            <Box key={j}>
+                                                                <SmallText>
+                                                                    {project.name}
+                                                                </SmallText>
+                                                                <Box>
+                                                                    {
+                                                                        project.role.map((r, k) => {
+                                                                            return <TinyText key={k}>- {r}</TinyText>
+                                                                        })
+                                                                    }
+                                                                </Box>
                                                             </Box>
-                                                        </Box>
-                                                    )
-                                                })
-                                            }
+                                                        )
+                                                    })
+                                                }
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
+                                        {
+                                            i != workList.length -1 &&
+                                            <Box style={{border: "0.5px dashed white"}}> </Box>
+
+                                        }
+                                    </Box>
                                 )
                             })
                         }
