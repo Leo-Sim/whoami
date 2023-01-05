@@ -3,7 +3,7 @@ import React from "react";
 import "./css/global.css";
 import {styled} from "@mui/material/styles";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Education from "./pages/Education";
+import Personal from "./pages/Personal";
 import Work from "./pages/Work";
 import Sns from "./component/common/Sns";
 
@@ -17,12 +17,12 @@ import Skills from "./pages/Skills";
 
 import {getCssByPlatform, getThemeByPlatform} from "./utils/platform";
 import {useTranslation} from "react-i18next";
-import {faBriefcase, faList, faScrewdriverWrench} from "@fortawesome/free-solid-svg-icons";
+import {faBriefcase, faList, faScrewdriverWrench, faPerson} from "@fortawesome/free-solid-svg-icons";
 
 const MENU_WIDTH_TABLET = 200;
 const MENU_WIDTH_DESKTOP = 200;
 const CONTENT_PADDING_NOT_MOBILE = 20;
-const CONTENT_PADDING_MOBILE = 10;
+const CONTENT_PADDING_MOBILE = 30;
 
 export default () => {
 
@@ -84,12 +84,9 @@ export default () => {
                     <Left >
                         <Menus>
                             <MenuItem name={t("summary")} url="/summary" icon={faList}/>
-
                             <MenuItem name={t("work")} url="/work" icon={faBriefcase}/>
-
                             <MenuItem name={t("skills")} url="/skills" icon={faScrewdriverWrench}/>
                         </Menus>
-                        {/*<Font*/}
                     </Left>
 
                     <Contents style={{height: "100%"}}>
@@ -97,7 +94,7 @@ export default () => {
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/work" element={<Work />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
-                            <Route path="/education" element={<Education />}></Route>
+                            <Route path="/personal" element={<Personal />}></Route>
 
                         </Routes>
                     </Contents>
