@@ -109,7 +109,7 @@ export default () => {
     })
 
     const summary = (
-        <Box style={{paddingBottom: "20px"}}>
+        <Box style={{paddingBottom: "20px", paddingLeft: "50px", paddingRight: "50px"}}>
             <ThemeProvider theme={theme}>
 
                 {/* Name, phone, email*/}
