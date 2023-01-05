@@ -1,6 +1,5 @@
 
 import React, {useState} from "react";
-import {useTranslation} from "react-i18next";
 
 import "../../css/component/workInfo.css"
 
@@ -12,6 +11,7 @@ import {getCommonCss, getCssByPlatform, getThemeByPlatform} from "../../utils/pl
 import {curTheme} from "../../context/context";
 import {Project, WorkHistory} from "../../utils/file";
 import Utils from "../../utils/utils";
+import {MiddleText, SmallText, TinyText} from "./Style";
 
 
 // Valid pattern for date
@@ -28,7 +28,7 @@ const WorkInfo = (props: WorkHistoryProperty) => {
     const curColorTheme = curTheme();
 
 
-    const [isSummary, setSummary] = useState(true);
+    const [isSummary] = useState(true);
 
 
     // #TODO get start date, end date and calcuate period, if end date is not specified, it's current job.
@@ -53,18 +53,27 @@ const WorkInfo = (props: WorkHistoryProperty) => {
         period = "" + Utils.getPeriod(sDate, eDate);
     }
 
-    const { t, i18n } = useTranslation();
-
-
-    const Summary = styled(Grid)(() => (
+    let Summary = styled(Grid)(() => (
         getCommonCss(theme, {
             border: "1px solid black",
             borderRadius: "5px",
-
+            // marginLeft: "5px",
+            // marginRight: "5px",
             paddingLeft: "7px",
             paddingRight: "7px",
         })
     ));
+
+    Summary = styled(Summary)(() => (
+        getCssByPlatform(theme, {
+            height: "110px"
+        }, {
+            height: "130px"
+        }, {
+            height: "130px"
+        })
+    ))
+
 
     const ArrowBox = styled(Box)(() => (
         getCommonCss(theme, {
@@ -82,25 +91,6 @@ const WorkInfo = (props: WorkHistoryProperty) => {
         })
     ));
 
-    const NameGrid = styled(Grid)(() => (
-        getCssByPlatform(theme, {
-            fontSize: "15px"
-        }, {
-            fontSize: "25px"
-        }, {
-            fontSize: "25px",
-        })
-    ));
-    const SubInfo = styled(Box)(() => (
-        getCssByPlatform(theme, {
-            fontSize: "8px"
-        }, {
-            fontSize: "14px"
-        }, {
-            fontSize: "14px"
-        })
-    ));
-
     // #TODO 현재직장인것 표시 어떻게 할지 정하기
 
 
@@ -114,30 +104,23 @@ const WorkInfo = (props: WorkHistoryProperty) => {
                     // show summary info
                     isSummary &&
                     <Summary container spacing={2}>
-                        <NameGrid item mobile={3} tablet={3} desktop={3}>
-                            <Box>{ props.name }</Box>
-                            <SubInfo>{ props.role }</SubInfo>
-                            <SubInfo>{ period }</SubInfo>
-                        </NameGrid>
+                        <Grid item mobile={5} tablet={5} desktop={5}>
+                            <MiddleText>{ props.name }</MiddleText>
+                            <TinyText>{ props.role }</TinyText>
+                            <TinyText>{ period }</TinyText>
+                        </Grid>
                         {/* work period and list of projects. */}
-                        <Grid item mobile={9} tablet={9} desktop={9}  style={{}}>
-
-                            <SubInfo>
-                                {/*{ props.role }*/}
-                            </SubInfo>
-                            <SubInfo>
-                                {/*dd*/}
-                            </SubInfo>
+                        <Grid item mobile={7} tablet={7} desktop={7}>
                             <ArrowBox>
                                 <Arrow icon={faAngleDown}
-                                       size={"lg"}
+                                       size={"xl"}
                                        style={{display: isDetail? "none" : ""}}
-                                       onClick={e => showDetail(true)}
+                                       onClick={() => showDetail(true)}
                                 />
                                 <Arrow icon={faAngleUp}
-                                       size={"lg"}
+                                       size={"xl"}
                                        style={{display: !isDetail? "none" : ""}}
-                                       onClick={e => showDetail(false)}
+                                       onClick={() => showDetail(false)}
                                 />
                             </ArrowBox>
                         </Grid>
@@ -159,13 +142,15 @@ const WorkInfo = (props: WorkHistoryProperty) => {
                             React.Children.map(props.children, (child, i) => {
                                 if(child) {
                                     return(
-                                        <ProjectInfo name={child.props.name}
-                                                     startDate={child.props.startDate}
-                                                     endDate={child.props.endDate}
-                                                     skills={child.props.skills}
-                                                     desc={child.props.desc}
-                                                     role={child.props.role}
-                                        />
+                                        <Box key={i}>
+                                            <ProjectInfo name={child.props.name}
+                                                         startDate={child.props.startDate}
+                                                         endDate={child.props.endDate}
+                                                         skills={child.props.skills}
+                                                         desc={child.props.desc}
+                                                         role={child.props.role}
+                                            />
+                                        </Box>
                                     )
                                 }
                             })
@@ -181,48 +166,36 @@ const WorkInfo = (props: WorkHistoryProperty) => {
 
 const ProjectInfo = (props: Project) => {
 
-    const DetailInfo = styled(Box)(() => (
-        getCssByPlatform(theme, {
-            fontSize: "8px"
-        }, {
-            fontSize: "14px"
-        }, {
-            fontSize: "14px"
-        })
-    ))
-
-    const ProjectName = styled(Grid)(() => (
-        getCssByPlatform(theme, {
-            fontSize: "12px"
-        }, {
-            fontSize: "20px"
-        }, {
-            fontSize: "20px",
-        })
-    ));
-
-
     return (
         <Box style={{marginTop:"20px", marginBottom: "20px"}}>
             <ThemeProvider theme={theme}>
                 <Grid container spacing={2}>
 
-                    <ProjectName item mobile={3} tablet={3} desktop={3}>
-                        {props.name}
-                        <DetailInfo>
-                            {Utils.formatDate(props.startDate)} ~ {Utils.formatDate(props.endDate)}
-                        </DetailInfo>
+                    <Grid item mobile={3} tablet={3} desktop={3}>
+                        <SmallText>{props.name}</SmallText>
 
-                    </ProjectName>
+                        <TinyText>
+                            {Utils.formatDate(props.startDate)} ~ {Utils.formatDate(props.endDate)}
+                        </TinyText>
+
+                    </Grid>
                     <Grid item mobile={9} tablet={9} desktop={9}>
-                        <List disablePadding>
-                            <ListItemText> {props.skills.join(",  ")} </ListItemText>
-                            {
-                                props.role.map((p, i) => {
-                                    return (<ListItemText key={i}> - {p}</ListItemText>)
-                                })
-                            }
-                        </List>
+                        <SmallText>
+                            <Box>{props.desc}</Box>
+                            <List disablePadding>
+                                <ListItemText> {props.skills.join(",  ")} </ListItemText>
+                                {
+                                    props.role.map((p, i) => {
+                                        return (
+                                            <Box style={{paddingLeft: "15px"}}>
+                                                <ListItemText key={i}> - {p}</ListItemText>
+                                            </Box>
+                                        )
+                                    })
+                                }
+
+                            </List>
+                        </SmallText>
 
                     </Grid>
 
