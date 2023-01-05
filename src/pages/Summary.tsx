@@ -26,7 +26,7 @@ export default () => {
 
     let IconBox = styled(Box)(() => (
         getCommonCss(theme, {
-            position: "absolute",
+            position: "fixed",
             backgroundColor: colorTheme.textColor,
             border: "1px solid " + colorTheme.textColor,
             borderRadius: "50%",
@@ -35,10 +35,11 @@ export default () => {
 
     IconBox = styled(IconBox)(() => (
         getCssByPlatform(theme, {
-
+            right: 15,
+            bottom: 20
         }, {
-            top: 0,
-            right: 0
+            top: 20,
+            right: 20
         }, {
             top: 20,
             right: 20
@@ -49,13 +50,12 @@ export default () => {
         getCommonCss(theme, {
             width: "50px",
             height: "50px",
-
             textAlign: "center",
             verticalAlign: "middle",
             position: "relative",
             display: "table-cell",
             cursor: "pointer",
-            // color: colorTheme.textColor,
+
             "&:hover": {
                 "& .disk": {
                     opacity: "0",
