@@ -6,9 +6,9 @@ const theme = getThemeByPlatform();
 
 const BigText = styled(Box)(() =>
     getCssByPlatform(theme, {
-
+        fontSize: "29px"
     }, {
-
+        fontSize: "37px"
     }, {
         fontSize: "37px"
     })
@@ -16,9 +16,9 @@ const BigText = styled(Box)(() =>
 
 const MiddleText = styled(Box)(() =>
     getCssByPlatform(theme, {
-
+        fontSize: "22px"
     }, {
-
+        fontSize: "28px"
     }, {
         fontSize: "28px"
     })
@@ -26,9 +26,9 @@ const MiddleText = styled(Box)(() =>
 
 const SmallText = styled(Box)(() =>
     getCssByPlatform(theme, {
-
+        fontSize: "14px"
     }, {
-
+        fontSize: "20px"
     }, {
         fontSize: "20px"
     })
@@ -37,9 +37,9 @@ const SmallText = styled(Box)(() =>
 
 const TinyText = styled(Box)(() =>
     getCssByPlatform(theme, {
-
+        fontSize: "11px"
     }, {
-
+        fontSize: "14px"
     }, {
         fontSize: "14px"
     })

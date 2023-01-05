@@ -15,6 +15,7 @@ interface PersonalInfo {
     address?: string
     phone?: string
     imagePath?: string
+    education?: Array<Education>
     // paragraph is separated by array index
     descriptions: Array<string>
 }
@@ -48,6 +49,14 @@ interface Sns {
     linkedin?: string
     facebook?: string
     instagram?: string
+}
+
+interface Education {
+    name: string
+    location: string
+    startDate: string
+    endDate: string
+    degree: string
 }
 
 class FileReader {

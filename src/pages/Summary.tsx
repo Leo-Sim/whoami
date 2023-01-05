@@ -14,6 +14,7 @@ import {useTranslation} from "react-i18next";
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Utils from "../utils/utils";
 
 
 
@@ -194,12 +195,17 @@ export default () => {
                                         <Grid container style={{marginTop: "10px", marginBottom: "20px"}}>
                                             <Grid item mobile={3} tablet={3} desktop={3}>
                                                 <MiddleText>{work.name}</MiddleText>
+                                                <TinyText>{work.location}</TinyText>
+                                                <TinyText>
+                                                    {Utils.formatDate(work.startDate)} ~
+                                                    {Utils.formatDate(work.endDate)}
+                                                </TinyText>
                                             </Grid>
                                             <Grid item mobile={9} tablet={9} desktop={9}>
                                                 {
                                                     work.projects.map((project, j) => {
                                                         return (
-                                                            <Box key={j}>
+                                                            <Box key={j} style={{marginBottom: "20px"}}>
                                                                 <SmallText>
                                                                     {project.name}
                                                                 </SmallText>
@@ -227,6 +233,51 @@ export default () => {
                         }
 
                     </Box>
+                </InfoBox>
+
+                {/* Education info */}
+                <InfoBox>
+                    <TitleBox>
+                        <MiddleText>{t("education")}</MiddleText>
+                    </TitleBox>
+
+                    <SmallText>
+                        {
+                            personal.education &&
+                            personal.education.map((e, i) => {
+                                return (
+                                    <Box key={i}>
+                                        <Grid container style={{marginTop: "10px", marginBottom: "20px"}}>
+                                        <Grid item mobile={3} tablet={3} desktop={3}>
+                                            <Box component="span">
+                                                <Box>
+                                                    {e.name}
+                                                </Box>
+                                            </Box>
+                                            {
+                                                e.location &&
+                                                <TinyText>
+                                                    {e.location}
+                                                </TinyText>
+                                            }
+
+                                        </Grid>
+                                        <Grid item mobile={9} tablet={9} desktop={9}>
+                                            <Box>{e.degree}</Box>
+                                            {
+                                                (e.startDate && e.endDate) &&
+                                                <TinyText component="span">
+                                                    {e.startDate} ~ {e.endDate}
+                                                </TinyText>
+
+                                            }
+                                        </Grid>
+                                        </Grid>
+                                    </Box>
+                                )
+                            })
+                        }
+                    </SmallText>
                 </InfoBox>
 
             </ThemeProvider>
