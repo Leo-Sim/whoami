@@ -7,7 +7,8 @@ import Education from "./pages/Education";
 import Work from "./pages/Work";
 import Sns from "./component/common/Sns";
 
-import Menus from "./component/common/Menus";
+import Menus from "./component/menu/Menus";
+import MenuItem from "./component/menu/MenuItem";
 
 import {ContextProvider, curTheme} from './context/context';
 import ColorThemes from "./theme/colorThemes";
@@ -16,6 +17,7 @@ import Skills from "./pages/Skills";
 
 import {getCssByPlatform, getThemeByPlatform} from "./utils/platform";
 import {useTranslation} from "react-i18next";
+import {faBriefcase, faList, faScrewdriverWrench} from "@fortawesome/free-solid-svg-icons";
 
 const MENU_WIDTH_TABLET = 200;
 const MENU_WIDTH_DESKTOP = 200;
@@ -23,7 +25,6 @@ const CONTENT_PADDING_NOT_MOBILE = 20;
 const CONTENT_PADDING_MOBILE = 10;
 
 export default () => {
-
 
     // #TODO get color theme from outside
     const colorTheme : ColorThemes = ColorThemes.BLACK
@@ -81,7 +82,13 @@ export default () => {
                 <BrowserRouter>
 
                     <Left >
-                        <Menus></Menus>
+                        <Menus>
+                            <MenuItem name={t("summary")} url="/summary" icon={faList}/>
+
+                            <MenuItem name={t("work")} url="/work" icon={faBriefcase}/>
+
+                            <MenuItem name={t("skills")} url="/skills" icon={faScrewdriverWrench}/>
+                        </Menus>
                         {/*<Font*/}
                     </Left>
 
