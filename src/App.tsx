@@ -3,7 +3,7 @@ import React from "react";
 import "./css/global.css";
 import {styled} from "@mui/material/styles";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Personal from "./pages/Personal";
+
 import Work from "./pages/Work";
 import Sns from "./component/common/Sns";
 
@@ -94,7 +94,6 @@ export default () => {
                             <Route path="/summary" element={<Summary />}></Route>
                             <Route path="/work" element={<Work />}></Route>
                             <Route path="/skills" element={<Skills />}></Route>
-                            <Route path="/personal" element={<Personal />}></Route>
 
                         </Routes>
                     </Contents>
