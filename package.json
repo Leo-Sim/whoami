@@ -4,8 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "test": "echo \ror: no test specified\" && exit 1"
+    "start": "webpack-dev-server --config webpack.config.dev.js --mode development",
+    "test": "echo \ror: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.prod.js --mode production"
   },
   "author": "",
   "license": "ISC",
