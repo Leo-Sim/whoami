@@ -45,5 +45,15 @@ const TinyText = styled(Box)(() =>
     })
 );
 
+const Tiny2xsText = styled(Box)(() =>
+    getCssByPlatform(theme, {
+        fontSize: "9px"
+    }, {
+        fontSize: "12px"
+    }, {
+        fontSize: "12px"
+    })
+);
 
-export {BigText, MiddleText, SmallText, TinyText}
+
+export {BigText, MiddleText, SmallText, TinyText, Tiny2xsText}

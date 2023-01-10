@@ -14,10 +14,16 @@ interface PersonalInfo {
     email?: string
     address?: string
     phone?: string
+    language: Array<Language>
     imagePath?: string
     education?: Array<Education>
     // paragraph is separated by array index
     descriptions: Array<string>
+}
+
+interface Language {
+    name: string
+    level: string
 }
 
 interface WorkHistory {
@@ -90,4 +96,4 @@ class FileReader {
 
 export {FileContent, FileReader, Sns};
 export {Skill}
-export {WorkHistory, Project, PersonalInfo}
+export {WorkHistory, Project, PersonalInfo, Language}

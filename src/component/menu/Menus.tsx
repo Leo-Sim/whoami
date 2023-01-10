@@ -40,7 +40,6 @@ interface MenuProperties {
 export default (props: MenuProperties) => {
 
     useEffect(() => {
-        console.log('@@@@dd')
     })
 
     const colorTheme = curTheme();
