@@ -141,9 +141,10 @@ export default () => {
 
                     <SmallText>
                         <Grid container>
-                            <Grid item mobile={3} tablet={3} desktop={3}>
-                                {
-                                    personal.imagePath &&
+                            {
+                                personal.imagePath &&
+                                <Grid item mobile={3} tablet={3} desktop={3}>
+
 
                                     <Box style={{textAlign: "center", marginRight: "5px"}}>
                                         <img  style={{
@@ -152,9 +153,9 @@ export default () => {
                                             width: imgSize,
                                             height: imgSize}} src={"/info/" + personal.imagePath} />
                                     </Box>
-
+                                </Grid>
                                 }
-                            </Grid>
+
                             <Grid item mobile={9} tablet={9} desktop={9}>
 
                                 <Box ref={ref} style={{display: "inline-block"}}>
